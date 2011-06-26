@@ -2,14 +2,22 @@ package com.example.mvcapp.controllers;
 
 import javax.ws.rs.*;
 import com.google.inject.*;
+import com.google.inject.name.Named;
 
-import com.example.mvcapp.model.ErrorResult;
+import com.example.mvcapp.model.*;
 
 /**
  * Error message controller
  */
 @Singleton
 public class ErrorController {
+
+	private final boolean printStackTrace;
+
+	@Inject
+	public ErrorController(@Named("DEBUG") boolean isDebug) {
+		this.printStackTrace = isDebug;
+	}
 
 	@GET
 	@Path("{path:.*}")
@@ -25,6 +33,7 @@ public class ErrorController {
 			"</head><body>"+
 			"<h1>ERROR</h1>"+
 			"<p><strong>"+error.getType()+":</strong> "+error.getError()+"</p>"+
+			(this.printStackTrace ? "<pre>"+ error.getStackTrace() +"</pre>" : "") +
 			"</body></html>";
 	}
 
@@ -32,6 +41,6 @@ public class ErrorController {
 	@Path("{path:.*}")
 	@Produces({"application/json", "application/xml"})
 	public ErrorResult errorData(Throwable ex) {
-		return new ErrorResult(ex);
+		return new ErrorResult(ex, this.printStackTrace);
 	}
 }

@@ -26,11 +26,11 @@ public class ExceptionRouter implements ExceptionMapper<Throwable> {
 			MediaType.APPLICATION_JSON_TYPE,
 			MediaType.APPLICATION_XML_TYPE);
 
-	private ErrorController errorController;
-	private Provider<ExtendedUriInfo> extendedUriInfoProvider;
+	private final ErrorController errorController;
+	private final Provider<ExtendedUriInfo> extendedUriInfoProvider;
 
 	@Inject
-	public void init(
+	public ExceptionRouter(
 			ErrorController errorController,
 			Provider<ExtendedUriInfo> extendedUriInfoProvider) {
 

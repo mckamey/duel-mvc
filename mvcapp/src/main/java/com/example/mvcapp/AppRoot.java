@@ -23,6 +23,9 @@ public class AppRoot extends GuiceServletContextListener {
 			 */
 			private void bindConfigConstants() {
 				// request duration threshold in ms
+				bindConstant().annotatedWith(Names.named("DEBUG")).to(true);
+
+				// request duration threshold in ms
 				bindConstant().annotatedWith(Names.named("REQUEST_THRESHOLD")).to(500.0);
 			}
 
@@ -39,9 +42,7 @@ public class AppRoot extends GuiceServletContextListener {
 			 */
 			private void bindAspects() {
 				// exception handling
-				ExceptionRouter exceptionHandler = new ExceptionRouter();
-				this.requestInjection(exceptionHandler);
-				bind(ExceptionRouter.class).toInstance(exceptionHandler);
+				bind(ExceptionRouter.class);
 
 				// controller action timing
 				ActionTimer actionTimer = new ActionTimer();
