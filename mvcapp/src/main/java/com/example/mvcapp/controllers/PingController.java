@@ -8,7 +8,7 @@ import com.google.inject.*;
  */
 @Singleton
 @Path("/ping")
-public class PingController {
+public class PingController extends BaseController {
 
 	@GET
 	@Produces("text/plain")

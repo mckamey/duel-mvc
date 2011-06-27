@@ -1,0 +1,9 @@
+<view name="ErrorPage"><call view="Page">
+
+<part name="head">
+	<title>Error: <%= data.error %></title>
+</part>
+
+<h1>ERROR</h1>
+<p><strong><%= data.type %>:</strong> <%= data.error %></p>
+<pre class="box" if="data.stackTrace"><%= data.stackTrace %></pre>

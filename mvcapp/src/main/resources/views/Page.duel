@@ -1,0 +1,22 @@
+<view name="Page">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+<part name="head">
+	<title>MVC App</title>
+</part>
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
+
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv/html5.js"></script><![endif]-->
+</head>
+<body>
+	<script type="text/javascript" src="/js/duel/duel.min.js"></script>
+	<script type="text/javascript" src="/js/app/app.js"></script>
+	<script type="text/javascript" src="/js/views/App/Example.js"></script>
+<div id="content">
+	<part />
+</div>
+</body>
+</html>

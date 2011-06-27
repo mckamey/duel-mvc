@@ -7,3 +7,4 @@
 \.iws
 bootstrap/target
 mvcapp/target
+mvcapp/src/main/webapp/js/views

@@ -5,12 +5,13 @@ import com.google.inject.*;
 import com.google.inject.name.Named;
 
 import com.example.mvcapp.model.*;
+import com.example.mvcapp.views.*;
 
 /**
  * Error message controller
  */
 @Singleton
-public class ErrorController {
+public class ErrorController extends BaseController {
 
 	private final boolean printStackTrace;
 
@@ -26,15 +27,7 @@ public class ErrorController {
 		ErrorResult error = this.errorData(ex);
 
 		// TODO: customize error responses
-		return
-			// poor man's view
-			"<!doctype><html><head>"+
-			"<title>Error</title>"+
-			"</head><body>"+
-			"<h1>ERROR</h1>"+
-			"<p><strong>"+error.getType()+":</strong> "+error.getError()+"</p>"+
-			(this.printStackTrace ? "<pre>"+ error.getStackTrace() +"</pre>" : "") +
-			"</body></html>";
+		return view(ErrorPage.class).data(error);
 	}
 
 	@GET

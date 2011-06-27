@@ -12,12 +12,19 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jersey.version>1.8</jersey.version>
-		<guice.version>3.0</guice.version>
+
+		<duel.version>0.2.2</duel.version>
 		<jackson.version>1.8.2</jackson.version>
+		<guice.version>3.0</guice.version>
+		<jersey.version>1.8</jersey.version>
 		<servlet.version>2.5</servlet.version>
 		<junit.version>4.8.2</junit.version>
+		<m2e.version>1.0.0</m2e.version>
 		<javac.version>1.6</javac.version>
+		<jrebel.version>1.0.5</jrebel.version>
+
+		<duel.sourcedir>src/main/resources/views/</duel.sourcedir>
+		<duel.clientdir>src/main/webapp/js/views/</duel.clientdir>
 	</properties>
 
 	<repositories>
@@ -34,6 +41,13 @@
 	</repositories>
 
 	<dependencies>
+		<!-- DUEL runtime -->
+		<dependency>
+			<groupId>org.duelengine.duel</groupId>
+			<artifactId>duel-runtime</artifactId>
+			<version>${duel.version}</version>
+		</dependency>
+
 		<!-- Jackson JSON runtime -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -98,6 +112,45 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- DUEL Compiler -->
+			<plugin>
+				<groupId>org.duelengine.duel</groupId>
+				<artifactId>duel-maven-plugin</artifactId>
+				<version>${duel.version}</version>
+				<executions>
+					<execution>
+						<id>generate-duel-views</id>
+						<phase>generate-sources</phase> 
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<clientPrefix>App</clientPrefix>
+							<serverPrefix>com.example.mvcapp.views</serverPrefix>
+							<inputFolder>${project.basedir}/${duel.sourcedir}</inputFolder>
+							<outputClientFolder>${project.basedir}/${duel.clientdir}</outputClientFolder>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- JRebel Config -->
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>javarebel-maven-plugin</artifactId>
+				<version>${jrebel.version}</version>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<!-- Java compiler -->
@@ -108,7 +161,46 @@
 						<target>${javac.version}</target>
 					</configuration>
 				</plugin>
-			</plugins>
+
+				<!-- http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${m2e.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.duelengine.duel</groupId>
+										<artifactId>duel-maven-plugin</artifactId>
+										<versionRange>[${duel.version},)</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.zeroturnaround</groupId>
+										<artifactId>javarebel-maven-plugin</artifactId>
+										<versionRange>[${jrebel.version},)</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins> 
 		</pluginManagement>
 	</build>
 </project>

@@ -1,11 +1,11 @@
 package com.example.mvcapp.controllers;
 
-import java.text.*;
 import java.util.*;
 import javax.ws.rs.*;
 import com.google.inject.*;
 
 import com.example.mvcapp.model.*;
+import com.example.mvcapp.views.*;
 
 /**
  * Example controller which verifies HTML/JSON/XML and error display are all working.
@@ -13,7 +13,7 @@ import com.example.mvcapp.model.*;
 @Singleton
 @Path("/")
 @Produces("text/html")
-public class HomeController {
+public class HomeController extends BaseController {
 
 	@GET
 	public Object getHTML() {
@@ -25,14 +25,7 @@ public class HomeController {
 	public Object getHTML(@PathParam("path") String path) {
 		Foo foo = new Foo(path, new Date());
 
-		// poor man's view
-		return
-			"<!doctype><html><head>"+
-				"<title>"+foo.getPath()+"</title>"+
-			"</head><body>"+
-				"<h1>"+foo.getPath()+"</h1>"+
-				"<p>"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(foo.getDate())+"</p>"+
-			"</body></html>";
+		return view(FooPage.class).data(foo);
 	}
 
 	@GET

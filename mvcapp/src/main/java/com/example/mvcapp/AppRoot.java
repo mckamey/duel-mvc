@@ -44,6 +44,9 @@ public class AppRoot extends GuiceServletContextListener {
 				// exception handling
 				bind(ExceptionRouter.class);
 
+				// view settings
+				bind(DuelContextProvider.class);
+
 				// controller action timing
 				ActionTimer actionTimer = new ActionTimer();
 				this.requestInjection(actionTimer);
