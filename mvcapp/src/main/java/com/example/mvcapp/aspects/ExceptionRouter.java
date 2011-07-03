@@ -1,7 +1,6 @@
 package com.example.mvcapp.aspects;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
@@ -13,6 +12,9 @@ import com.sun.jersey.api.model.AbstractResourceMethod;
 
 import com.example.mvcapp.controllers.ErrorController;
 
+/**
+ * JAX-RS Glue for mapping exceptions to error views 
+ */
 @Singleton
 @javax.ws.rs.ext.Provider
 public class ExceptionRouter implements ExceptionMapper<Throwable> {
@@ -41,7 +43,10 @@ public class ExceptionRouter implements ExceptionMapper<Throwable> {
 	@Override
 	public Response toResponse(final Throwable ex) {
 
+		// get request metadata
 		ExtendedUriInfo uriInfo = this.extendedUriInfoProvider.get();
+
+		// find the intended result type
 		MediaType resultType = getResultType(uriInfo.getMatchedMethod());
 
 		return Response
@@ -65,7 +70,9 @@ public class ExceptionRouter implements ExceptionMapper<Throwable> {
 	}
 
 	private Object getResult(Throwable ex, MediaType resultType) {
-		// can this matching be performed by JAX-RS?
+		// can these mappings be performed by JAX-RS?
+		// TODO: map more response views
+
 		if (MediaType.APPLICATION_JSON_TYPE.equals(resultType) ||
 			MediaType.APPLICATION_XML_TYPE.equals(resultType)) {
 			return errorController.errorData(ex);

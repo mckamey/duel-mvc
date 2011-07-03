@@ -1,12 +1,14 @@
 package com.example.mvcapp.aspects;
 
 import java.util.logging.Logger;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import javax.ws.rs.WebApplicationException;
 import org.duelengine.duel.*;
 import org.duelengine.duel.rs.*;
 
+/**
+ * Adds timing logging to standard ViewResult
+ */
 public class TimedViewResult extends ViewResult {
 
 	private final Logger log;
@@ -27,8 +29,10 @@ public class TimedViewResult extends ViewResult {
 
 		long start = System.nanoTime();
 		double elapsed;
+
 		try {
 			super.write(stream);
+
 		} finally {
 			elapsed = (System.nanoTime()-start) / 1000000.0;//ms
 			String label = view.getName()+" render: ";

@@ -1,7 +1,7 @@
 <view name="ErrorPage"><call view="Page">
 
 <part name="head">
-	<title>Error: <%= data.error %></title>
+	<title>ERROR: <%= data.error %></title>
 </part>
 
 <h1>ERROR</h1>

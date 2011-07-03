@@ -40,34 +40,34 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
 a {
-	color: #406080;
+	color: #990000;
 	text-decoration: none;
 }
 a:hover, a:active {
 	text-decoration: underline;
 }
-h1, h1 a, h1 a:hover, h1 a:active {
+h1, h1 a, h1 a:hover, h1 a:active, h2 {
 	color: #F1F1F1;
 	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.75);
 }
 h1 {
-	font-size: 2em;
-	letter-spacing: -1px;
-	margin-bottom: 0.25em;
-	padding-bottom: 0.25em;
-
 	border: 0 solid rgba(0, 0, 0, 0.25);
 	border-bottom-width: 1px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	font-size: 2em;
+	letter-spacing: -1px;
+	margin-bottom: 0.25em;
+	padding-bottom: 0.25em;
 }
 h2 {
+	border: 0 solid rgba(0, 0, 0, 0.25);
+	border-bottom-width: 1px;
 	font-size: 1.5em;
-	font-style: normal;
 	margin: 0;
-	padding: 0.25em 0 0.25em 0;
-	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.75);
+	margin-bottom: 0.5em;
+	padding-bottom: 0.5em;
 }
 hr {
 	border: 0 solid rgba(0, 0, 0, 0.25);
@@ -76,6 +76,14 @@ hr {
 	-moz-box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 	-webkit-box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 	clear: both;
+}
+
+ul {
+	list-style: square;
+	margin-left: 2em;
+}
+li {
+	padding-bottom: 0.25em;
 }
 
 .box {
@@ -92,11 +100,11 @@ hr {
 	-moz-box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 	-webkit-box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 
+	color: black;
+
 	margin: 1em 0;
 	overflow: hidden;
 	padding: 1em;
-
-	color: black;
 }
 
 #content {

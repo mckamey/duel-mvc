@@ -22,24 +22,12 @@ public class ErrorResult {
 		}
 	}
 
-	public String getType() {
-		return type;
-	}
-	public void setType(String value) {
-		type = value;
-	}
+	public String getType() { return type; }
+	public void setType(String value) { type = value; }
 
-	public String getError() {
-		return error;
-	}
-	public void setError(String value) {
-		error = value;
-	}
+	public String getError() { return error; }
+	public void setError(String value) { error = value; }
 
-	public String getStackTrace() {
-		return stackTrace;
-	}
-	public void setStackTrace(String value) {
-		stackTrace = value;
-	}
+	public String getStackTrace() { return stackTrace; }
+	public void setStackTrace(String value) { stackTrace = value; }
 }

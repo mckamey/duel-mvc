@@ -4,18 +4,29 @@
 <head>
 	<meta charset="UTF-8">
 <part name="head">
-	<title>MVC App</title>
+	<title></title>
 </part>
 	<link rel="stylesheet" type="text/css" href="/css/main.merge" />
-
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-	<script type="text/javascript">//TODO</script>
-	<!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv/html5.js"></script><![endif]-->
 </head>
 <body>
+	<!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv/html5.js"></script><![endif]-->
 	<script type="text/javascript" src="/js/main.merge"></script>
 <div id="content">
 	<part />
+
+	<nav class="box">
+		<h2>Configuration Tests</h2>
+		<ul>
+			<li><strong>HTML:</strong> <a href="/Foo%20object">Foo object</a></li>
+			<li><strong>JSON:</strong> <a href="/Foo%20object.json">Foo object</a></li>
+			<li><strong>XML:</strong> <a href="/Foo%20object.xml">Foo object</a></li>
+		</ul><ul>
+			<li><strong>HTML:</strong> <a href="/throw">Throw an exception</a></li>
+			<li><strong>JSON:</strong> <a href="/throw.json">Throw an exception</a></li>
+			<li><strong>XML:</strong> <a href="/throw.xml">Throw an exception</a></li>
+		<ul>
+	</nav>
 </div>
 </body>
 </html>

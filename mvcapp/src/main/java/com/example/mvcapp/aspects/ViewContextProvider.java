@@ -10,13 +10,13 @@ import org.duelengine.duel.*;
  * Builds the view context for a request
  */
 @Singleton
-public class DuelContextProvider implements Provider<DuelContext> {
+public class ViewContextProvider implements Provider<DuelContext> {
 
 	private final boolean isDebug;
 	private final LinkInterceptor interceptor;
 
 	@Inject
-	public DuelContextProvider(
+	public ViewContextProvider(
 		@Named("DEBUG") boolean isDebug,
 		@Named("CDN_HOST") String cdnHost,
 		@Named("CDN_MAP") String cdnMapName) throws URISyntaxException {
@@ -35,6 +35,7 @@ public class DuelContextProvider implements Provider<DuelContext> {
 			.setClientID(new IncClientIDStrategy("_"));
 
 		if (this.isDebug) {
+			// setup pretty-print formatting
 			// add ambient client-side data
 			context
 				.setFormat(new FormatPrefs().setIndent("\t").setNewline("\n"))

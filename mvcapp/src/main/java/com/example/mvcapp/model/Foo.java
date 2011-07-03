@@ -1,10 +1,12 @@
 package com.example.mvcapp.model;
 
 import java.util.Date;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@javax.xml.bind.annotation.XmlRootElement
 public class Foo {
+
+	private String path;
+	private Date date;
 
 	public Foo() {}
 
@@ -13,11 +15,9 @@ public class Foo {
 		this.date = date;
 	}
 
-	private String path;
 	public String getPath() { return path; }
 	public void setPath(String value) { path = value; }
 
-	private Date date;
 	public Date getDate() { return date; }
 	public void setDate(Date value) { date = value; }
 }

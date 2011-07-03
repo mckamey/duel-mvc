@@ -14,7 +14,7 @@ public class PingController extends BaseController {
 	@Produces("text/plain")
 	public Object ping() {
 
-		// TODO: perform health test
+		// TODO: perform service health test
 		return "OK";
 	}
 }

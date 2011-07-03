@@ -4,14 +4,17 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 import javax.ws.rs.*;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
-import com.example.mvcapp.aspects.*;
+import org.duelengine.duel.DuelContext;
+import org.duelengine.duel.util.*;
 import com.google.inject.*;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import org.duelengine.duel.DuelContext;
+
+import com.example.mvcapp.aspects.*;
+import com.example.mvcapp.controllers.*;
 
 public class AppRoot extends GuiceServletContextListener {
 
@@ -27,8 +30,8 @@ public class AppRoot extends GuiceServletContextListener {
 				// set debug in DEV
 				// set CDN host in PROD
 
-				// general debug mode
-				bindConstant().annotatedWith(Names.named("DEBUG")).to(true);
+				// general debug mode (also controls compaction)
+				bindConstant().annotatedWith(Names.named("DEBUG")).to(false);
 
 				// CDN server hostname, e.g. "cdn.example.com"
 				bindConstant().annotatedWith(Names.named("CDN_HOST")).to("");
@@ -59,7 +62,7 @@ public class AppRoot extends GuiceServletContextListener {
 				bind(ExceptionRouter.class);
 
 				// view settings
-				bind(DuelContext.class).toProvider(DuelContextProvider.class);
+				bind(DuelContext.class).toProvider(ViewContextProvider.class);
 
 				// controller action timing
 				ActionTimer actionTimer = new ActionTimer();
@@ -80,45 +83,48 @@ public class AppRoot extends GuiceServletContextListener {
 			private void bindStaticRoutes() {
 				// http://google-guice.googlecode.com/svn/trunk/javadoc/com/google/inject/servlet/ServletModule.html
 
+				// this uses the standard static file servlet
+				DefaultWrapperServlet defaultServlet = new DefaultWrapperServlet();
+
 				serve(
 					"/robots.txt",
 					"/favicon.ico"
-				).with(DefaultWrapperServlet.class);
+				).with(defaultServlet);
 
 				serveRegex(
 					"/cdn/.*",
 					"/css/.*",
 					"/js/.*",
 					"/images/.*"
-				).with(DefaultWrapperServlet.class);
+				).with(defaultServlet);
 			}
 
 			/**
 			 * JAX-RS controller bindings
 			 */
-			private void bindControllers(String packageName) {
+			private void bindControllers(String... packages) {
 				// we have to explicitly bind each controller class
 				// to ensure Guice controls instantiation for AOP
-				// this will auto-register controllers in a package
+				// this will auto-register controllers in each package
 
-				Set<Class<?>> controllers;
-				try {
-					controllers = ClassEnumerator.getClasses(packageName);
-				} catch (Exception ex) {
-					ex.printStackTrace();
+				for (String packageName : packages) {
+					try {
+						Set<Class<?>> controllers = ClassEnumerator.getClasses(packageName);
 
-					throw new IllegalArgumentException(packageName, ex);
-				}
+						for (Class<?> controller : controllers) {
+							if (controller.isInterface() || Modifier.isAbstract(controller.getModifiers())) {
+								// filter abstract or interfaces
+								continue;
+							}
 
-				for (Class<?> controller : controllers) {
-					if (controller.isInterface() ||
-						Modifier.isAbstract(controller.getModifiers())) {
-						// filter abstract or interfaces
-						continue;
+							// scope is determined by Guice annotations
+							bind(controller);
+						}
+					} catch (Exception ex) {
+						ex.printStackTrace();
+
+						throw new IllegalArgumentException(packageName, ex);
 					}
-
-					// scope is determined by Guice annotations
-					bind(controller);
 				}
 			}
 
@@ -132,7 +138,9 @@ public class AppRoot extends GuiceServletContextListener {
 				bindSerializers();
 
 				// register JAX-RS controllers in package
-				bindControllers(AppRoot.class.getPackage().getName()+".controllers");
+				bindControllers(
+					BaseController.class.getPackage().getName()
+				);
 
 				// register AOP aspects
 				bindAspects();

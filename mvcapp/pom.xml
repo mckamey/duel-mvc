@@ -7,13 +7,13 @@
 	<artifactId>mvcapp</artifactId>
 	<version>0.1.0</version>
 
-	<name>Example MVC App</name>
+	<name>${project.artifactId} MVC App</name>
 	<packaging>war</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<duel.version>0.4.0</duel.version>
+		<duel.version>0.4.1</duel.version>
 		<merge.version>0.1.0</merge.version>
 		<jackson.version>1.8.2</jackson.version>
 		<guice.version>3.0</guice.version>
@@ -24,13 +24,15 @@
 		<javac.version>1.6</javac.version>
 		<jrebel.version>1.0.5</jrebel.version>
 
-		<duel.sourcedir>src/main/resources/views/</duel.sourcedir>
-		<duel.clientdir>src/main/webapp/js/views/</duel.clientdir>
+		<duel.clientPrefix>App</duel.clientPrefix>
+		<duel.serverPrefix>com.example.mvcapp.views</duel.serverPrefix>
+		<duel.sourceDir>src/main/resources/views/</duel.sourceDir>
+		<duel.clientDir>src/main/webapp/js/views/</duel.clientDir>
 
 		<merge.webapp>src/main/webapp/</merge.webapp>
-		<merge.cdnroot>src/main/webapp/cdn/</merge.cdnroot>
-		<merge.cdnmap>src/main/resources/cdn.properties</merge.cdnmap>
-		<merge.cdnfiles>.ico .png .jpg .gif</merge.cdnfiles>
+		<merge.cdnRoot>src/main/webapp/cdn/</merge.cdnRoot>
+		<merge.cdnMap>src/main/resources/cdn.properties</merge.cdnMap>
+		<merge.cdnFiles>.ico .png .jpg .gif</merge.cdnFiles>
 	</properties>
 
 	<repositories>
@@ -119,6 +121,7 @@
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
+
 			<!-- DUEL Compiler -->
 			<plugin>
 				<groupId>org.duelengine.duel</groupId>
@@ -130,10 +133,10 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<clientPrefix>App</clientPrefix>
-							<serverPrefix>com.example.mvcapp.views</serverPrefix>
-							<inputFolder>${project.basedir}/${duel.sourcedir}</inputFolder>
-							<outputClientFolder>${project.basedir}/${duel.clientdir}</outputClientFolder>
+							<clientPrefix>${duel.clientPrefix}</clientPrefix>
+							<serverPrefix>${duel.serverPrefix}</serverPrefix>
+							<inputFolder>${project.basedir}/${duel.sourceDir}</inputFolder>
+							<outputClientFolder>${project.basedir}/${duel.clientDir}</outputClientFolder>
 						</configuration>
 					</execution>
 				</executions>
@@ -151,9 +154,9 @@
 						</goals>
 						<configuration>
 							<webappDir>${project.basedir}/${merge.webapp}</webappDir>
-							<cdnRoot>${merge.cdndir}</cdnRoot>
-							<cdnMapFile>${project.basedir}/${merge.cdnmap}</cdnMapFile>
-							<cdnFiles>${merge.cdnfiles}</cdnFiles>
+							<cdnRoot>${merge.cdnDir}</cdnRoot>
+							<cdnMapFile>${project.basedir}/${merge.cdnMap}</cdnMapFile>
+							<cdnFiles>${merge.cdnFiles}</cdnFiles>
 						</configuration>
 					</execution>
 				</executions>

@@ -30,7 +30,7 @@ public class ActionTimer implements MethodInterceptor {
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 
 		// Note: this only includes the action method body timings, not serialization or render timings
-		
+
 		long start = System.nanoTime();
 		double elapsed;
 		Object result = null;
