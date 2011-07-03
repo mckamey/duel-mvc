@@ -3,12 +3,31 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.example</groupId>
+	<groupId>org.duelengine.duel</groupId>
 	<artifactId>bootstrap</artifactId>
 	<version>0.1.0</version>
+	<packaging>jar</packaging>
 
 	<name>Bootstrap</name>
-	<packaging>jar</packaging>
+	<description>WAR bootstrap loader</description>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://duelengine.org/LICENSE.txt</url>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://bitbucket.org/mckamey/duel-mvc</url>
+		<connection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</connection>
+		<developerConnection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<id>mckamey</id>
+			<name>Stephen M. McKamey</name>
+			<url>http://mck.me</url>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -6,9 +6,10 @@
 	<groupId>com.example</groupId>
 	<artifactId>mvcapp</artifactId>
 	<version>0.1.0</version>
-
-	<name>${project.artifactId} MVC App</name>
 	<packaging>war</packaging>
+
+	<name>Example MVC App</name>
+	<description>MVC App built using Jersey/Guice/DUEL</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,11 +37,7 @@
 	</properties>
 
 	<repositories>
-		<repository>
-			<id>repo1_maven_org</id>
-			<name>Maven 2 Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
+		<!-- Jersey repository -->
 		<repository>
 			<id>java.net2</id>
 			<name>Java.net Maven2 Repository</name>

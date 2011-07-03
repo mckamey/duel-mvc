@@ -11,6 +11,7 @@
 	<version>${version}</version>
 
 	<name>${artifactId} MVC App</name>
+	<description>MVC App built using Jersey/Guice/DUEL</description>
 	<packaging>war</packaging>
 
 	<properties>
@@ -39,11 +40,7 @@
 	</properties>
 
 	<repositories>
-		<repository>
-			<id>repo1_maven_org</id>
-			<name>Maven 2 Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
+		<!-- Jersey repository -->
 		<repository>
 			<id>java.net2</id>
 			<name>Java.net Maven2 Repository</name>
