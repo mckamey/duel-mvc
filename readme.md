@@ -20,9 +20,7 @@ Environment
 Maven Setup
 -----------
 
-(archetype coming soon...)
-
-	mvn archetype:generate duel:mvc
+	mvn archetype:generate -DarchetypeGroupId=org.duelengine.duel -DarchetypeArtifactId=duel-mvcapp -DarchetypeVersion=0.1.0
 	mvn package
 
 JRebel Setup
