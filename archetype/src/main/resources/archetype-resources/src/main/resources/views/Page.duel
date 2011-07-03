@@ -1,0 +1,24 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<view name="Page">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+<part name="head">
+	<title></title>
+</part>
+	<link rel="stylesheet" type="text/css" href="/css/main.merge" />
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+<body>
+	<!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv/html5.js"></script><![endif]-->
+	<script type="text/javascript" src="/js/main.merge"></script>
+<div id="content">
+	<part />
+
+	<call view="Menu" defer />
+</div>
+</body>
+</html>

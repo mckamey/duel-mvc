@@ -1,0 +1,11 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<view name="FooPage"><call view="Page">
+
+<part name="head">
+	<title>${artifactId}: <%= data.path %></title>
+</part>
+
+<h1>${artifactId}: <%= data.path %></h1>
+<p><%= data.date %></p>

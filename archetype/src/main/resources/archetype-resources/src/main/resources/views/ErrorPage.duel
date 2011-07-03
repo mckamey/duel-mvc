@@ -1,0 +1,12 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<view name="ErrorPage"><call view="Page">
+
+<part name="head">
+	<title>${artifactId} ERROR: <%= data.error %></title>
+</part>
+
+<h1>${artifactId} ERROR</h1>
+<p><strong><%= data.type %>:</strong> <%= data.error %></p>
+<pre class="box" if="data.stackTrace"><%= data.stackTrace %></pre>
