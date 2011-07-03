@@ -8,3 +8,5 @@
 bootstrap/target
 mvcapp/target
 mvcapp/src/main/webapp/js/views
+mvcapp/src/main/webapp/cdn
+mvcapp/src/main/resources/cdn.properties

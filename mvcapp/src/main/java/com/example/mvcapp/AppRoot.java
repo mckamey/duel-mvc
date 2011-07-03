@@ -1,7 +1,7 @@
 package com.example.mvcapp;
 
 import java.lang.reflect.Modifier;
-import java.util.Set;
+import java.util.*;
 import javax.ws.rs.*;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import com.example.mvcapp.aspects.*;
@@ -11,6 +11,7 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import org.duelengine.duel.DuelContext;
 
 public class AppRoot extends GuiceServletContextListener {
 
@@ -22,11 +23,24 @@ public class AppRoot extends GuiceServletContextListener {
 			 * Configuration constant bindings
 			 */
 			private void bindConfigConstants() {
-				// request duration threshold in ms
+				// TODO: read environment var for DEV/STAGE/PROD
+				// set debug in DEV
+				// set CDN host in PROD
+
+				// general debug mode
 				bindConstant().annotatedWith(Names.named("DEBUG")).to(true);
 
-				// request duration threshold in ms
-				bindConstant().annotatedWith(Names.named("REQUEST_THRESHOLD")).to(500.0);
+				// CDN server hostname, e.g. "cdn.example.com"
+				bindConstant().annotatedWith(Names.named("CDN_HOST")).to("");
+
+				// name of .properties file containing CDN mappings
+				bindConstant().annotatedWith(Names.named("CDN_MAP")).to("cdn");
+
+				// action timing duration threshold in ms
+				bindConstant().annotatedWith(Names.named("ACTION_THRESHOLD")).to(500.0);//ms
+
+				// render timing duration threshold in ms
+				bindConstant().annotatedWith(Names.named("RENDER_THRESHOLD")).to(100.0);//ms
 			}
 
 			/**
@@ -45,7 +59,7 @@ public class AppRoot extends GuiceServletContextListener {
 				bind(ExceptionRouter.class);
 
 				// view settings
-				bind(DuelContextProvider.class);
+				bind(DuelContext.class).toProvider(DuelContextProvider.class);
 
 				// controller action timing
 				ActionTimer actionTimer = new ActionTimer();
@@ -65,16 +79,17 @@ public class AppRoot extends GuiceServletContextListener {
 			 */
 			private void bindStaticRoutes() {
 				// http://google-guice.googlecode.com/svn/trunk/javadoc/com/google/inject/servlet/ServletModule.html
-				
+
 				serve(
 					"/robots.txt",
 					"/favicon.ico"
 				).with(DefaultWrapperServlet.class);
 
 				serveRegex(
-					"/images/.*",
+					"/cdn/.*",
 					"/css/.*",
-					"/js/.*"
+					"/js/.*",
+					"/images/.*"
 				).with(DefaultWrapperServlet.class);
 			}
 

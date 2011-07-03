@@ -1,5 +1,7 @@
 #!/bin/sh
 
+clear;
+
 # ensure bootstrap is built
 if test ! -e ./bootstrap/target/bootstrap.jar
 then

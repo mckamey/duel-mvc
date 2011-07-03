@@ -13,7 +13,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<duel.version>0.2.2</duel.version>
+		<duel.version>0.4.0</duel.version>
+		<merge.version>0.1.0</merge.version>
 		<jackson.version>1.8.2</jackson.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.8</jersey.version>
@@ -25,6 +26,11 @@
 
 		<duel.sourcedir>src/main/resources/views/</duel.sourcedir>
 		<duel.clientdir>src/main/webapp/js/views/</duel.clientdir>
+
+		<merge.webapp>src/main/webapp/</merge.webapp>
+		<merge.cdnroot>src/main/webapp/cdn/</merge.cdnroot>
+		<merge.cdnmap>src/main/resources/cdn.properties</merge.cdnmap>
+		<merge.cdnfiles>.ico .png .jpg .gif</merge.cdnfiles>
 	</properties>
 
 	<repositories>
@@ -120,8 +126,6 @@
 				<version>${duel.version}</version>
 				<executions>
 					<execution>
-						<id>generate-duel-views</id>
-						<phase>generate-sources</phase> 
 						<goals>
 							<goal>generate</goal>
 						</goals>
@@ -130,6 +134,26 @@
 							<serverPrefix>com.example.mvcapp.views</serverPrefix>
 							<inputFolder>${project.basedir}/${duel.sourcedir}</inputFolder>
 							<outputClientFolder>${project.basedir}/${duel.clientdir}</outputClientFolder>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Merge Builder -->
+			<plugin>
+				<groupId>org.duelengine.duel</groupId>
+				<artifactId>merge-maven-plugin</artifactId>
+				<version>${merge.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<webappDir>${project.basedir}/${merge.webapp}</webappDir>
+							<cdnRoot>${merge.cdndir}</cdnRoot>
+							<cdnMapFile>${project.basedir}/${merge.cdnmap}</cdnMapFile>
+							<cdnFiles>${merge.cdnfiles}</cdnFiles>
 						</configuration>
 					</execution>
 				</executions>
@@ -177,6 +201,19 @@
 										<versionRange>[${duel.version},)</versionRange>
 										<goals>
 											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.duelengine.duel</groupId>
+										<artifactId>merge-maven-plugin</artifactId>
+										<versionRange>[${merge.version},)</versionRange>
+										<goals>
+											<goal>merge</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

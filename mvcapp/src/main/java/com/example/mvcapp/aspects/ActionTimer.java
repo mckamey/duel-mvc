@@ -15,14 +15,14 @@ public class ActionTimer implements MethodInterceptor {
 
 	private final Logger log = Logger.getLogger(ActionTimer.class.getSimpleName());
 	private Provider<UriInfo> uriInfoProvider;
-	private double requestThreshold;
+	private double timingThreshold;
 
 	@Inject
 	public void init(
-		@Named("REQUEST_THRESHOLD") double requestThreshold,
+		@Named("ACTION_THRESHOLD") double timingThreshold,
 		Provider<UriInfo> uriInfoProvider) {
 
-		this.requestThreshold = requestThreshold;
+		this.timingThreshold = timingThreshold;
 		this.uriInfoProvider = uriInfoProvider;
 	}
 
@@ -42,12 +42,12 @@ public class ActionTimer implements MethodInterceptor {
 			elapsed = (System.nanoTime()-start) / 1000000.0;//ms
 
 			UriInfo uriInfo = this.uriInfoProvider.get();
-			String url = uriInfo.getPath();
+			String label = '/'+uriInfo.getPath()+" action: ";
 
-			if (elapsed > this.requestThreshold) {
-				log.warning(url+": "+elapsed+" ms");
+			if (elapsed > this.timingThreshold) {
+				log.warning(label+elapsed+" ms");
 			} else {
-				log.info(url+": "+elapsed+" ms");
+				log.info(label+elapsed+" ms");
 			}
 		}
 

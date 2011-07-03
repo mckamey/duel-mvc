@@ -1,8 +1,10 @@
 package com.example.mvcapp.aspects;
 
+import java.net.URISyntaxException;
+import java.util.*;
 import com.google.inject.*;
 import com.google.inject.name.Named;
-import org.duelengine.duel.DuelContext;
+import org.duelengine.duel.*;
 
 /**
  * Builds the view context for a request
@@ -11,21 +13,32 @@ import org.duelengine.duel.DuelContext;
 public class DuelContextProvider implements Provider<DuelContext> {
 
 	private final boolean isDebug;
+	private final LinkInterceptor interceptor;
 
 	@Inject
 	public DuelContextProvider(
-		@Named("DEBUG") boolean isDebug) {
+		@Named("DEBUG") boolean isDebug,
+		@Named("CDN_HOST") String cdnHost,
+		@Named("CDN_MAP") String cdnMapName) throws URISyntaxException {
 
 		this.isDebug = isDebug;
+
+		ResourceBundle cdnBundle = ResourceBundle.getBundle(cdnMapName);
+		this.interceptor = new CDNLinkInterceptor(cdnHost, cdnBundle, isDebug);
 	}
 
 	public DuelContext get() {
 		DuelContext context = new DuelContext();
 
-		// add ambient client-side data
+		context
+			.setLinkInterceptor(this.interceptor)
+			.setClientID(new IncClientIDStrategy("_"));
+
 		if (this.isDebug) {
-			context.getFormat().setIndent("\t").setNewline("\n");
-			context.putExtra("App.isDebug", true);
+			// add ambient client-side data
+			context
+				.setFormat(new FormatPrefs().setIndent("\t").setNewline("\n"))
+				.putExtra("App.isDebug", true);
 		}
 
 		return context;
