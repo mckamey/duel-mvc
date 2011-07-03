@@ -1,0 +1,13 @@
+<view name="Menu">
+<nav class="box">
+	<h2>Configuration Tests</h2>
+	<ul>
+		<li><strong>HTML:</strong> <a href="/Foo%20object">Foo object</a></li>
+		<li><strong>JSON:</strong> <a href="/Foo%20object.json">Foo object</a></li>
+		<li><strong>XML:</strong> <a href="/Foo%20object.xml">Foo object</a></li>
+	</ul><ul>
+		<li><strong>HTML:</strong> <a href="/throw">Throw an exception</a></li>
+		<li><strong>JSON:</strong> <a href="/throw.json">Throw an exception</a></li>
+		<li><strong>XML:</strong> <a href="/throw.xml">Throw an exception</a></li>
+	<ul>
+</nav>
