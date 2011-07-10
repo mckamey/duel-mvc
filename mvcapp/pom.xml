@@ -27,12 +27,11 @@
 
 		<duel.clientPrefix>App</duel.clientPrefix>
 		<duel.serverPrefix>com.example.mvcapp.views</duel.serverPrefix>
-		<duel.sourceDir>src/main/resources/views/</duel.sourceDir>
-		<duel.clientDir>src/main/webapp/js/views/</duel.clientDir>
+		<duel.sourceDir>${project.basedir}/src/main/resources/views/</duel.sourceDir>
+		<duel.clientPath>/js/views/</duel.clientPath>
 
-		<merge.webapp>src/main/webapp/</merge.webapp>
-		<merge.cdnRoot>src/main/webapp/cdn/</merge.cdnRoot>
-		<merge.cdnMap>src/main/resources/cdn.properties</merge.cdnMap>
+		<merge.cdnMapFile>/cdn.properties</merge.cdnMapFile>
+		<merge.cdnRoot>/cdn/</merge.cdnRoot>
 		<merge.cdnFiles>.ico .png .jpg .gif</merge.cdnFiles>
 	</properties>
 
@@ -132,8 +131,8 @@
 						<configuration>
 							<clientPrefix>${duel.clientPrefix}</clientPrefix>
 							<serverPrefix>${duel.serverPrefix}</serverPrefix>
-							<inputFolder>${project.basedir}/${duel.sourceDir}</inputFolder>
-							<outputClientFolder>${project.basedir}/${duel.clientDir}</outputClientFolder>
+							<inputDir>${duel.sourceDir}</inputDir>
+							<outputClientPath>${duel.clientPath}</outputClientPath>
 						</configuration>
 					</execution>
 				</executions>
@@ -150,9 +149,8 @@
 							<goal>merge</goal>
 						</goals>
 						<configuration>
-							<webappDir>${project.basedir}/${merge.webapp}</webappDir>
-							<cdnRoot>${merge.cdnDir}</cdnRoot>
-							<cdnMapFile>${project.basedir}/${merge.cdnMap}</cdnMapFile>
+							<cdnMapFile>${merge.cdnMapFile}</cdnMapFile>
+							<cdnRoot>${merge.cdnRoot}</cdnRoot>
 							<cdnFiles>${merge.cdnFiles}</cdnFiles>
 						</configuration>
 					</execution>

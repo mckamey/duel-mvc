@@ -20,7 +20,10 @@ Environment
 Maven Setup
 -----------
 
-	mvn archetype:generate -DarchetypeGroupId=org.duelengine -DarchetypeArtifactId=duel-mvcapp-archetype -DarchetypeVersion=0.2.0
+	mvn archetype:generate \
+		-DarchetypeGroupId=org.duelengine \
+		-DarchetypeArtifactId=duel-mvcapp-archetype \
+		-DarchetypeVersion=0.2.0
 	cd myAppName
 	mvn package
 

@@ -123,11 +123,11 @@
 					<outputDirectory>${project.build.directory}</outputDirectory>
 				</configuration>
 				<executions>
-				    <execution>
-				        <goals>
-				            <goal>copy-dependencies</goal>
-				        </goals>
-				    </execution>
+					<execution>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
