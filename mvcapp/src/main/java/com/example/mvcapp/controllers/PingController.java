@@ -1,6 +1,7 @@
 package com.example.mvcapp.controllers;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import com.google.inject.*;
 
 /**
@@ -14,7 +15,9 @@ public class PingController extends BaseController {
 	@Produces("text/plain")
 	public Object ping() {
 
-		// TODO: perform service health test
-		return "OK";
+		// TODO: perform service health tests
+
+		//return non-OK status to pull server from pool
+		return Response.ok("pong");
 	}
 }

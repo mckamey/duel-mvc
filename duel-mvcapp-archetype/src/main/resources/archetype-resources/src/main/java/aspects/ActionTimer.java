@@ -55,7 +55,10 @@ public class ActionTimer implements MethodInterceptor {
 		}
 
 		// emit a header with the timing
-		ResponseBuilder response = (result instanceof Response) ? Response.fromResponse((Response)result) : Response.ok(result);
+		ResponseBuilder response =
+			(result instanceof ResponseBuilder) ? (ResponseBuilder)result :
+			(result instanceof Response) ? Response.fromResponse((Response)result) :
+			Response.ok(result);
 		return response.header("X-Action-MS", elapsed).build();
 	}
 }
