@@ -8,9 +8,10 @@
 </part>
 	<link rel="stylesheet" type="text/css" href="/css/main.merge" />
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+	<!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv/html5.js"></script><![endif]-->
 </head>
 <body>
-	<!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv/html5.js"></script><![endif]-->
 	<script type="text/javascript" src="/js/main.merge"></script>
 <div id="content">
 	<part />

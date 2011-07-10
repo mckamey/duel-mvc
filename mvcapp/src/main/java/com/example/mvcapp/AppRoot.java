@@ -31,7 +31,7 @@ public class AppRoot extends GuiceServletContextListener {
 				// set CDN host in PROD
 
 				// general debug mode (also controls compaction)
-				bindConstant().annotatedWith(Names.named("DEBUG")).to(false);
+				bindConstant().annotatedWith(Names.named("DEBUG")).to(true);
 
 				// CDN server hostname, e.g. "cdn.example.com"
 				bindConstant().annotatedWith(Names.named("CDN_HOST")).to("");
