@@ -1,4 +1,4 @@
-package bootstrap;
+package org.duelengine.bootstrap;
 
 import java.io.File;
 
@@ -21,7 +21,7 @@ public class Bootstrap {
 		ServletServer server = null;
 
 		System.out.println(SEPARATOR);
-		System.out.println("Servlet Bootstrap\n");
+		System.out.println("WAR Bootstrap\n");
 		for (int i=0; i<args.length; i++) {
 			String arg = args[i];
 			if ("-p".equals(arg)) {
@@ -62,7 +62,7 @@ public class Bootstrap {
 		}
 		
 		try {
-			System.out.println(" - servlet implementation: "+server.getName());
+			System.out.println(" - servlet container: "+server.getName());
 
 			warPath = new File(warPath).getCanonicalPath();
 
@@ -88,7 +88,7 @@ public class Bootstrap {
 			System.in.read();
 
 			System.out.println(SEPARATOR);
-			System.out.println("Servlet Bootstrap exiting...");
+			System.out.println("WAR Bootstrap exiting...");
 			System.out.println(SEPARATOR);
 			System.out.println();
 

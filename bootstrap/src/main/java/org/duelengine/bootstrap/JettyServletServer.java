@@ -1,4 +1,4 @@
-package bootstrap;
+package org.duelengine.bootstrap;
 
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.servlet.*;

@@ -1,4 +1,4 @@
-package bootstrap;
+package org.duelengine.bootstrap;
 
 import java.io.File;
 import org.glassfish.embeddable.*;

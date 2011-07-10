@@ -1,4 +1,4 @@
-package bootstrap;
+package org.duelengine.bootstrap;
 
 public interface ServletServer {
 
