@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>org.duelengine.duel</groupId>
+	<groupId>org.duelengine</groupId>
 	<artifactId>duel-mvc-root</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 	<packaging>pom</packaging>
 
-	<name>DUEL MVC App</name>
-	<description>Maven Archetype for DUEL MVC app</description>
+	<name>DUEL MVC App Root</name>
+	<description>DUEL MVC app Archetype</description>
 	<url>http://duelengine.org</url>
 	<licenses>
 		<license>
@@ -35,8 +35,8 @@
 	</properties>
 
 	<modules>
+		<module>duel-mvcapp-archetype</module>
 		<module>mvcapp</module>
-		<module>archetype</module>
 		<module>bootstrap</module>
 	</modules>
 </project>

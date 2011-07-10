@@ -17,8 +17,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<duel.version>0.4.1</duel.version>
-		<merge.version>0.1.1</merge.version>
+		<duel.version>0.5.0</duel.version>
+		<merge.version>0.2.0</merge.version>
 		<jackson.version>1.8.2</jackson.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.8</jersey.version>
@@ -51,7 +51,7 @@
 	<dependencies>
 		<!-- DUEL runtime -->
 		<dependency>
-			<groupId>org.duelengine.duel</groupId>
+			<groupId>org.duelengine</groupId>
 			<artifactId>duel-runtime</artifactId>
 			<version>${duel.version}</version>
 		</dependency>
@@ -124,7 +124,7 @@
 
 			<!-- DUEL Compiler -->
 			<plugin>
-				<groupId>org.duelengine.duel</groupId>
+				<groupId>org.duelengine</groupId>
 				<artifactId>duel-maven-plugin</artifactId>
 				<version>${duel.version}</version>
 				<executions>
@@ -144,7 +144,7 @@
 
 			<!-- Merge Builder -->
 			<plugin>
-				<groupId>org.duelengine.duel</groupId>
+				<groupId>org.duelengine</groupId>
 				<artifactId>merge-maven-plugin</artifactId>
 				<version>${merge.version}</version>
 				<executions>
@@ -199,7 +199,7 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.duelengine.duel</groupId>
+										<groupId>org.duelengine</groupId>
 										<artifactId>duel-maven-plugin</artifactId>
 										<versionRange>[${duel.version},)</versionRange>
 										<goals>
@@ -212,7 +212,7 @@
 								</pluginExecution>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.duelengine.duel</groupId>
+										<groupId>org.duelengine</groupId>
 										<artifactId>merge-maven-plugin</artifactId>
 										<versionRange>[${merge.version},)</versionRange>
 										<goals>
