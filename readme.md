@@ -24,8 +24,20 @@ Maven Setup
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=duel-mvc-archetype \
 		-DarchetypeVersion=0.2.0
-	cd myAppName
+	cd mvcapp
 	mvn package
+	cd ..
+
+	mvn archetype:generate \
+		-DarchetypeGroupId=org.duelengine \
+		-DarchetypeArtifactId=war-bootstrap-archetype \
+		-DarchetypeVersion=0.2.0
+	cd bootstrap
+	mvn package
+	cd ..
+
+	java -jar bootstrap/target/bootstrap.jar -war mvcapp/target/mvcapp.war
+
 
 JRebel Setup
 ------------
