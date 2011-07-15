@@ -35,7 +35,6 @@
 	</properties>
 
 	<modules>
-		<module>duel-mvc-archetype</module>
 		<module>mvcapp</module>
 		<module>bootstrap</module>
 	</modules>

@@ -2,12 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-		<relativePath></relativePath>
-	</parent>
 
 	<groupId>org.duelengine</groupId>
 	<artifactId>bootstrap</artifactId>
@@ -15,25 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>WAR Bootstrap</name>
-	<description>WAR bootstrap loader for quick &amp; dirty testing in various servlet containers.</description>
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>http://duelengine.org/LICENSE.txt</url>
-		</license>
-	</licenses>
-	<scm>
-		<url>https://bitbucket.org/mckamey/duel-mvc</url>
-		<connection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</developerConnection>
-	</scm>
-	<developers>
-		<developer>
-			<id>mckamey</id>
-			<name>Stephen M. McKamey</name>
-			<url>http://mck.me</url>
-		</developer>
-	</developers>
+	<description>Simple WAR bootstrap for quick &amp; dirty testing in various servlet containers.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

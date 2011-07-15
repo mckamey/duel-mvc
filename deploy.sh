@@ -6,5 +6,5 @@ cd duel-mvc-archetype
 mvn clean deploy -U -DperformRelease=true -Dgpg.keyname=EE82F9AB
 cd ..
 
-cd bootstrap
+cd war-bootstrap-archetype
 mvn clean deploy -U -DperformRelease=true -Dgpg.keyname=EE82F9AB
