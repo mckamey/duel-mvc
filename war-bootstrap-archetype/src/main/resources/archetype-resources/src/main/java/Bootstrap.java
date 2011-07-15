@@ -8,7 +8,7 @@ import java.io.File;
 public class Bootstrap {
 
 	private static final String SEPARATOR = "========================================";
-	private static final String HELP = "java -jar ctrl-${artifactId}.jar${symbol_escape}n"+
+	private static final String HELP = "java -jar ${artifactId}.jar${symbol_escape}n"+
 			"  --help       : this help text${symbol_escape}n"+
 			"  -war <path>  : set the name of war (default: ./root.war)${symbol_escape}n" +
 			"  -p <port>    : set the HTTP listening port (default: 8443)${symbol_escape}n"+

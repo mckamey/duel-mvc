@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<glassfish.version>[3.1,4.0]</glassfish.version>
+		<glassfish.version>[3.1,4.0)</glassfish.version>
 		<jetty.version>[7.4.2,9.0.0)</jetty.version>
 		<tomcat.version>[7.0.16,8.0.0)</tomcat.version>
 	</properties>

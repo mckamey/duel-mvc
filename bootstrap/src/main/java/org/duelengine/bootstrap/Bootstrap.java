@@ -5,7 +5,7 @@ import java.io.File;
 public class Bootstrap {
 
 	private static final String SEPARATOR = "========================================";
-	private static final String HELP = "java -jar ctrl-bootstrap.jar\n"+
+	private static final String HELP = "java -jar bootstrap.jar\n"+
 			"  --help       : this help text\n"+
 			"  -war <path>  : set the name of war (default: ./root.war)\n" +
 			"  -p <port>    : set the HTTP listening port (default: 8443)\n"+

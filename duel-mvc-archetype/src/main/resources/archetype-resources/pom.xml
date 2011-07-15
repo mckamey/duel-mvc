@@ -9,10 +9,10 @@
 	<groupId>${groupId}</groupId>
 	<artifactId>${artifactId}</artifactId>
 	<version>${version}</version>
-
-	<name>${artifactId} MVC App</name>
-	<description>MVC project using Jersey ${jersey.version}, Guice ${guice.version}, DUEL views ${duel.version}, DUEL merge ${merge.version}</description>
 	<packaging>war</packaging>
+
+	<name>${artifactId} mvc app</name>
+	<description>MVC project using Jersey ${jersey.version}, Guice ${guice.version}, DUEL views ${duel.version}, DUEL merge ${merge.version}</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

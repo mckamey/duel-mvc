@@ -1,5 +1,5 @@
-Dev Setup
-=========
+DUEL MVC
+========
 
 Environment
 -----------
@@ -24,6 +24,7 @@ Maven Setup
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=duel-mvc-archetype \
 		-DarchetypeVersion=0.2.0
+
 	cd mvcapp
 	mvn package
 	cd ..
@@ -32,6 +33,7 @@ Maven Setup
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=war-bootstrap-archetype \
 		-DarchetypeVersion=0.2.0
+
 	cd bootstrap
 	mvn package
 	cd ..
@@ -57,17 +59,17 @@ Eclipse Instructions (Helios & Indigo)
 	- Build Automatically
 	- Refresh Automatically
 4. Map `*.duel` extension to HTML editor
-
-If also using Groovy:
-
-5. Build Paths >> Add as Source Folders
-	- `target/generated-sources/groovy-stubs/main`
-	- `target/generated-sources/groovy-stubs/test`
+4. Map `*.merge` extension to text editor
 
 Development
 -----------
 
-1. Start the dev webserver with: `./launch.sh`
-2. Edit with Eclipse... refresh
-3. Repeat
-4. Restart on Guice binding changes / major refactorings as these don't seem to propagate as well
+1. Start the dev webserver with:
+		mvn clean package && \
+		java $JREBEL_OPTS \
+			-jar bootstrap/target/bootstrap.jar \
+			-war mvcapp/target/mvcapp/
+2. View at `http://127.0.0.1:8080/`
+3. Edit with Eclipse... refresh browser
+4. Repeat
+5. Restart on Guice binding changes / major refactorings as these don't seem to propagate as well

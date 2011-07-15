@@ -26,7 +26,7 @@ class GlassFishServletServer implements ServletServer {
 			gfProps.setPort("https-listener", httpsPort);
 		}
 
-		server = GlassFishRuntime.${artifactId}().newGlassFish(gfProps);
+		server = GlassFishRuntime.bootstrap().newGlassFish(gfProps);
 		server.start();
 
 		File war = new File(warPath);
