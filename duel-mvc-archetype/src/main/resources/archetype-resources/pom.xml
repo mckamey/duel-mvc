@@ -11,7 +11,7 @@
 	<version>${version}</version>
 
 	<name>${artifactId} MVC App</name>
-	<description>MVC App built using Jersey/Guice/DUEL</description>
+	<description>MVC project using Jersey ${jersey.version}, Guice ${guice.version}, DUEL views ${duel.version}, DUEL merge ${merge.version}</description>
 	<packaging>war</packaging>
 
 	<properties>

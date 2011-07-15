@@ -8,8 +8,8 @@
 	<version>0.2.0</version>
 	<packaging>pom</packaging>
 
-	<name>DUEL MVC App Root</name>
-	<description>DUEL MVC app Archetype</description>
+	<name>DUEL-MVC Root</name>
+	<description>DUEL-MVC</description>
 	<url>http://duelengine.org</url>
 	<licenses>
 		<license>
@@ -35,7 +35,7 @@
 	</properties>
 
 	<modules>
-		<module>duel-mvcapp-archetype</module>
+		<module>duel-mvc-archetype</module>
 		<module>mvcapp</module>
 		<module>bootstrap</module>
 	</modules>
