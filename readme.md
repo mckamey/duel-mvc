@@ -32,7 +32,7 @@ Maven Setup
 	mvn archetype:generate \
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=war-bootstrap-archetype \
-		-DarchetypeVersion=0.2.0
+		-DarchetypeVersion=0.2.1
 
 	cd bootstrap
 	mvn package
