@@ -4,12 +4,15 @@ DUEL MVC
 Environment
 -----------
 
+###Minimum:
+
 - Java SE JDK 1.6u26
 	http://www.oracle.com/technetwork/java/javase/downloads/
-- Mercurial SCM 1.8.4
-	http://mercurial.selenic.com/downloads/
 - Maven 3.0.3
-	http://maven.apache.org
+	http://maven.apache.org/download.html
+
+###Recommended:
+
 - Eclipse IDE 2.7
 	http://www.eclipse.org/downloads/
 - m2e 1.0.0
@@ -20,24 +23,28 @@ Environment
 Maven Setup
 -----------
 
+	# generate a new DUEL MVC project
 	mvn archetype:generate \
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=duel-mvc-archetype \
 		-DarchetypeVersion=0.2.0
 
-	cd mvcapp
-	mvn package
-	cd ..
+	# build your project
+	# NOTE: replace "mvcapp" with your chosen artifact name
+	cd mvcapp; mvn package; cd ..
 
+	# generate a new test server bootstrap
 	mvn archetype:generate \
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=war-bootstrap-archetype \
 		-DarchetypeVersion=0.2.1
 
-	cd bootstrap
-	mvn package
-	cd ..
+	# build your boostrap
+	# NOTE: replace "bootstrap" with your chosen artifact name
+	cd bootstrap; mvn package; cd ..
 
+	# run the resulting WAR on the test bootstrap
+	# NOTE: again replace with your chosen artifact names
 	java -jar bootstrap/target/bootstrap.jar -war mvcapp/target/mvcapp.war
 
 
@@ -64,11 +71,13 @@ Eclipse Instructions (Helios & Indigo)
 Development
 -----------
 
-1. Start the dev webserver with:
+1. Start the dev webserver (using the exploded WAR directory):
+
 		mvn clean package && \
 		java $JREBEL_OPTS \
 			-jar bootstrap/target/bootstrap.jar \
 			-war mvcapp/target/mvcapp/
+
 2. View at `http://127.0.0.1:8080/`
 3. Edit with Eclipse... refresh browser
 4. Repeat
