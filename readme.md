@@ -27,7 +27,7 @@ Maven Setup
 	mvn archetype:generate \
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=duel-mvc-archetype \
-		-DarchetypeVersion=0.2.0
+		-DarchetypeVersion=0.2.1
 
 	# build your project
 	# NOTE: replace "mvcapp" with your chosen artifact name

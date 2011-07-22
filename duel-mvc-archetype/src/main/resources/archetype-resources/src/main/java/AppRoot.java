@@ -100,6 +100,13 @@ public class AppRoot extends GuiceServletContextListener {
 					"/js/.*",
 					"/images/.*"
 				).with(defaultServlet);
+
+				// this sets the cache control headers to never expire
+				NeverExpireFilter neverExpire = new NeverExpireFilter();
+
+				filterRegex(
+					"/cdn/.*"
+				).through(neverExpire);
 			}
 
 			/**
