@@ -36,11 +36,6 @@
 	</properties>
 
 	<repositories>
-		<repository>
-			<id>staged</id>
-			<name>Sonatype OSS</name>
-			<url>https://oss.sonatype.org/content/repositories/orgduelengine-238/</url>
-		</repository>
 		<!-- Jersey repository -->
 		<repository>
 			<id>java.net2</id>
