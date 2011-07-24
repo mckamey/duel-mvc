@@ -5,30 +5,8 @@
 	
 	<groupId>org.duelengine</groupId>
 	<artifactId>duel-mvc-root</artifactId>
-	<version>0.2.0</version>
+	<version>0.0.0</version>
 	<packaging>pom</packaging>
-
-	<name>DUEL MVC Root</name>
-	<description>DUEL MVC</description>
-	<url>http://duelengine.org</url>
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>http://duelengine.org/LICENSE.txt</url>
-		</license>
-	</licenses>
-	<scm>
-		<url>https://bitbucket.org/mckamey/duel-mvc</url>
-		<connection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</developerConnection>
-	</scm>
-	<developers>
-		<developer>
-			<id>mckamey</id>
-			<name>Stephen M. McKamey</name>
-			<url>http://mck.me</url>
-		</developer>
-	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,6 +14,5 @@
 
 	<modules>
 		<module>mvcapp</module>
-		<module>bootstrap</module>
 	</modules>
 </project>

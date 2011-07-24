@@ -20,8 +20,8 @@ Environment
 - JRebel 4.0.2
 	http://www.zeroturnaround.com/jrebel/current/
 
-Maven Setup
------------
+Usage
+-----
 
 	# generate a new DUEL MVC project
 	mvn archetype:generate \
@@ -55,18 +55,18 @@ Configure JRebel with $JREBEL_OPTS:
 
 	export JREBEL_OPTS "-noverify -javaagent:/Applications/ZeroTurnaround/JRebel/jrebel.jar"
 
-Eclipse Instructions (Helios & Indigo)
---------------------------------------
+Eclipse Usage (Helios & Indigo)
+-------------------------------
 
-0. Create new Workspace
-1. Import... >> Maven >> Existing Maven Projects
-2. Build paths >> Add as Source Folders
+1. Create new Workspace
+2. Import... >> Maven >> Existing Maven Projects
+3. Build paths >> Add as Source Folders
 	- `target/generated-sources/duel`
-3. Preferences >> General >> Workspace:
+4. Preferences >> General >> Workspace:
 	- Build Automatically
 	- Refresh Automatically
-4. Map `*.duel` extension to HTML editor
-4. Map `*.merge` extension to text editor
+5. Map `*.duel` extension to HTML editor
+6. Map `*.merge` extension to text editor
 
 Development
 -----------
