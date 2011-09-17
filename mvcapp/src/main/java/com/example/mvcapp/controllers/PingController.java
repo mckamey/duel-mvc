@@ -21,6 +21,6 @@ public class PingController extends BaseController {
 		// TODO: perform service health tests
 
 		//return non-OK status to pull server from pool
-		return Response.ok("pong");
+		return Response.ok("pong").build();
 	}
 }

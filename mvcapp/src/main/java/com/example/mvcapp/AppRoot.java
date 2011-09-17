@@ -75,56 +75,61 @@ public class AppRoot extends GuiceServletContextListener {
 				).through(neverExpire);
 			}
 
-			@Provides
-			@Singleton
-			@SuppressWarnings("unused")
-			protected LinkInterceptor linkInterceptorProvider(
-					Stage stage,
-					@Named("CDN_HOST") String cdnHost,
-					@Named("CDN_MAP") String cdnMapName) {
-
-				try {
-					return new CDNLinkInterceptor(
-							cdnHost,
-							ResourceBundle.getBundle(cdnMapName),
-							(stage == Stage.DEVELOPMENT));
-
-				} catch (URISyntaxException ex) {
-					addError(ex);
-					return null;
-				}
-			}
-
-			/**
-			 * By convention everything in controllers package will be bound
-			 */
-			@Override
-			protected String[] getControllerPackages() {
-				return new String[] { BaseController.class.getPackage().getName() };
-			}
-
-			/**
-			 * JAX-RS serialization bindings
-			 */
-			private void bindSerializers() {
-				// bind JAXB/JSON serialization
-				bind(JacksonJaxbJsonProvider.class).in(Singleton.class);
-			}
-
 			@Override
 			protected void configureApp() {
+				// setup Guice-style configuration values
+				bindConstants();
+
+				// bind JAXB/JSON serialization
+				bind(JacksonJaxbJsonProvider.class).in(Singleton.class);
 
 				// context for each request
 				bind(DuelMvcContext.class).to(AppContext.class);
 
 				// intercept all exceptions
 				bind(ExceptionRouter.class);
+			}
 
-				// setup Guice-style configuration values
-				bindConstants();
+			/**
+			 * By convention, every concrete class in the controller packages will be available
+			 */
+			@Override
+			protected Package[] getControllerPackages() {
+				return new Package[] {
+					BaseController.class.getPackage()
+				};
+			}
 
-				// register JAX-RS serialization providers
-				bindSerializers();
+			/**
+			 * LinkInterceptor is used by the merge tool to manage references to static resources.
+			 * Configured for build-time optimization via pom.xml
+			 * @param stage
+			 * @param cdnHost
+			 * @param cdnMapName
+			 * @return
+			 */
+			@Provides
+			@Singleton
+			@SuppressWarnings("unused")
+			protected LinkInterceptor linkInterceptorSingleton(
+					Stage stage,
+					@Named("CDN_HOST") String cdnHost,
+					@Named("CDN_MAP") String cdnMapName) {
+
+				LinkInterceptor linkInterceptor = null;
+
+				try {
+					linkInterceptor = new CDNLinkInterceptor(
+						cdnHost,
+						ResourceBundle.getBundle(cdnMapName),
+						(stage == Stage.DEVELOPMENT));
+
+				} catch (URISyntaxException ex) {
+					// Guice providers cannot throw exceptions
+					addError(ex);
+				}
+
+				return linkInterceptor;
 			}
 		});
 	}

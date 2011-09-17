@@ -11,7 +11,7 @@ import org.duelengine.duel.mvc.ResultFilterContext;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class LatencyFilter implements ActionFilter, ResultFilter {
+public class LatencyTimer implements ActionFilter, ResultFilter {
 
 	private static final AtomicLong counter = new AtomicLong();
 	private static final double NANO2MS = 1000000.0;
@@ -32,7 +32,7 @@ public class LatencyFilter implements ActionFilter, ResultFilter {
 	}
 	
 	@Inject
-	public LatencyFilter(
+	public LatencyTimer(
 			@Named("ACTION_THRESHOLD") double actionThreshold,
 			@Named("RENDER_THRESHOLD") double renderThreshold,
 			@Named("LATENCY_THRESHOLD") double latencyThreshold) {

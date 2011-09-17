@@ -39,7 +39,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<jackson.version>1.8.5</jackson.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.9</jersey.version>
 		<servlet.version>2.5</servlet.version>
@@ -53,30 +52,6 @@
 			<groupId>org.duelengine</groupId>
 			<artifactId>duel-runtime</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<!-- Jackson JSON runtime -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-
-		<!-- Jackson JAX-RS provider -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-xc</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- Guice runtime -->

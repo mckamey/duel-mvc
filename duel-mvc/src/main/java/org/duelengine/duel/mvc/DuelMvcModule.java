@@ -41,7 +41,7 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 	 * Gets the set of packages containing all MVC controllers.
 	 * Return null for manually binding controllers.
 	 */
-	protected abstract String[] getControllerPackages();
+	protected abstract Package[] getControllerPackages();
 
 	/**
 	 * MVC controller bindings
@@ -120,14 +120,14 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 	 * Utility method which binds all concrete classes in the specified packages. Used for Guice-AOP.
 	 * @param packages list of packages to bind
 	 */
-	private void bindPackages(String... packages) {
+	private void bindPackages(Package... packages) {
 		if (packages == null) {
 			return;
 		}
 
-		for (String packageName : packages) {
+		for (Package pkg : packages) {
 			try {
-				Set<Class<?>> types = ClassEnumerator.getClasses(packageName);
+				Set<Class<?>> types = ClassEnumerator.getClasses(pkg.getName());
 
 				for (Class<?> type : types) {
 					if (type.isInterface() || Modifier.isAbstract(type.getModifiers())) {
@@ -148,7 +148,7 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 	@Override
 	protected final void configureServlets() {
 
-		// bind any remaining IoC
+		// bind any app-specific IoC
 		configureApp();
 
 		// bind view results via factory
