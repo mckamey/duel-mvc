@@ -13,6 +13,7 @@
 	</properties>
 
 	<modules>
+		<module>duel-mvc</module>
 		<module>mvcapp</module>
 	</modules>
 </project>

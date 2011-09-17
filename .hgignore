@@ -5,6 +5,7 @@
 \.iml
 \.ipr
 \.iws
+duel-mvc/target
 duel-mvc-archetype/target
 mvcapp/target
 bootstrap

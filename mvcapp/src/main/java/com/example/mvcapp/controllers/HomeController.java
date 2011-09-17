@@ -1,11 +1,15 @@
 package com.example.mvcapp.controllers;
 
-import java.util.*;
-import javax.ws.rs.*;
-import com.google.inject.*;
+import java.util.Date;
 
-import com.example.mvcapp.model.*;
-import com.example.mvcapp.views.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import com.example.mvcapp.model.Foo;
+import com.example.mvcapp.views.FooPage;
+import com.google.inject.Singleton;
 
 /**
  * Example controller which verifies HTML/JSON/XML and error display are all working.

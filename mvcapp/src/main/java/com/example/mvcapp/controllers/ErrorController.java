@@ -1,11 +1,14 @@
 package com.example.mvcapp.controllers;
 
-import javax.ws.rs.*;
-import com.google.inject.*;
-import com.google.inject.name.Named;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-import com.example.mvcapp.model.*;
-import com.example.mvcapp.views.*;
+import com.example.mvcapp.model.ErrorResult;
+import com.example.mvcapp.views.ErrorPage;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.Stage;
 
 /**
  * Error message controller
@@ -16,8 +19,8 @@ public class ErrorController extends BaseController {
 	private final boolean printStackTrace;
 
 	@Inject
-	public ErrorController(@Named("DEBUG") boolean isDebug) {
-		this.printStackTrace = isDebug;
+	public ErrorController(Stage stage) {
+		this.printStackTrace = (stage == Stage.DEVELOPMENT);
 	}
 
 	@GET

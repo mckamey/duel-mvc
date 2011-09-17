@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<groupId>org.duelengine</groupId>
+	<artifactId>duel-mvc</artifactId>
+	<version>0.6.0</version>
+	<packaging>jar</packaging>
+
+	<name>DUEL-MVC</name>
+	<description>MVC engine built using Jersey 1.9, Guice 3.0, DUEL views 0.6.0</description>
+	<url>http://duelengine.org</url>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://duelengine.org/LICENSE.txt</url>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://bitbucket.org/mckamey/duel-mvc</url>
+		<connection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</connection>
+		<developerConnection>scm:hg:https://bitbucket.org/mckamey/duel-mvc</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<id>mckamey</id>
+			<name>Stephen M. McKamey</name>
+			<url>http://mck.me</url>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<jackson.version>1.8.5</jackson.version>
+		<guice.version>3.0</guice.version>
+		<jersey.version>1.9</jersey.version>
+		<servlet.version>2.5</servlet.version>
+		<junit.version>4.8.2</junit.version>
+		<jvm.version>1.6</jvm.version>
+	</properties>
+
+	<dependencies>
+		<!-- DUEL runtime -->
+		<dependency>
+			<groupId>org.duelengine</groupId>
+			<artifactId>duel-runtime</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Jackson JSON runtime -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Jackson JAX-RS provider -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Guice runtime -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+
+		<!-- Jersey runtime -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<!-- Jersey-Guice runtime -->
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-guice</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<!-- Servlet interfaces -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JUnit runtime -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Java compiler -->
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${jvm.version}</source>
+						<target>${jvm.version}</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
