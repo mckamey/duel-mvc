@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<name>Example MVC App</name>
-	<description>MVC app built using Jersey/Guice/DUEL</description>
+	<description>MVC app built using Jersey ${jersey.version}, Guice ${guice.version}, DUEL views ${duel.version}, DUEL merge ${merge.version}</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
