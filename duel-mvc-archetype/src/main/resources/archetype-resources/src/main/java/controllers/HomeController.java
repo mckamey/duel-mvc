@@ -3,12 +3,16 @@
 #set( $symbol_escape = '\' )
 package ${package}.controllers;
 
-import java.util.*;
-import javax.ws.rs.*;
-import com.google.inject.*;
+import java.util.Date;
 
-import ${package}.model.*;
-import ${package}.views.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import ${package}.model.Foo;
+import ${package}.views.FooPage;
+import com.google.inject.Singleton;
 
 /**
  * Example controller which verifies HTML/JSON/XML and error display are all working.
@@ -39,6 +43,13 @@ public class HomeController extends BaseController {
 	}
 
 	@GET
+	@Path("{path:.*}.txt")
+	@Produces("text/plain")
+	public Object getTEXT(@PathParam("path") String path) {
+		return path;
+	}
+
+	@GET
 	@Path("{path:.*}.xml")
 	@Produces("application/xml")
 	public Object getXML(@PathParam("path") String path) {
@@ -58,6 +69,13 @@ public class HomeController extends BaseController {
 	@Produces("application/json")
 	public Object throwErrorJSON() {
 		throw new IllegalStateException("This action always throws an exception in JSON.");
+	}
+
+	@GET
+	@Path("throw.txt")
+	@Produces("text/plain")
+	public Object throwErrorText() {
+		throw new IllegalStateException("This action always throws an exception in TEXT.");
 	}
 
 	@GET

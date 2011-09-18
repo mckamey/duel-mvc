@@ -3,12 +3,14 @@
 #set( $symbol_escape = '\' )
 package ${package}.controllers;
 
-import javax.ws.rs.*;
-import com.google.inject.*;
-import com.google.inject.name.Named;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
 
-import ${package}.model.*;
-import ${package}.views.*;
+import ${package}.model.ErrorResult;
+import ${package}.views.ErrorPage;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.Stage;
 
 /**
  * Error message controller
@@ -19,12 +21,17 @@ public class ErrorController extends BaseController {
 	private final boolean printStackTrace;
 
 	@Inject
-	public ErrorController(@Named("DEBUG") boolean isDebug) {
-		this.printStackTrace = isDebug;
+	public ErrorController(Stage stage) {
+		this.printStackTrace = (stage == Stage.DEVELOPMENT);
 	}
 
 	@GET
-	@Path("{path:.*}")
+	@Produces({"text/plain"})
+	public Object errorText(Throwable ex) {
+		return ex.getMessage();
+	}
+
+	@GET
 	@Produces({"text/html", "application/xhtml+xml"})
 	public Object errorView(Throwable ex) {
 		ErrorResult error = this.errorData(ex);
@@ -34,7 +41,6 @@ public class ErrorController extends BaseController {
 	}
 
 	@GET
-	@Path("{path:.*}")
 	@Produces({"application/json", "application/xml"})
 	public ErrorResult errorData(Throwable ex) {
 		return new ErrorResult(ex, this.printStackTrace);

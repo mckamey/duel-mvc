@@ -3,37 +3,16 @@
 #set( $symbol_escape = '\' )
 package ${package}.controllers;
 
-import java.util.logging.Logger;
-import com.google.inject.*;
-import com.google.inject.name.Named;
-import org.duelengine.duel.*;
-import org.duelengine.duel.rs.*;
+import org.duelengine.duel.mvc.Apply;
+import org.duelengine.duel.mvc.DuelController;
 
-import ${package}.aspects.TimedViewResult;
+import ${package}.aspects.CustomResponseHeaders;
+import ${package}.aspects.LatencyTimer;
 
 /**
- * Base class for all controllers and provides access to helper methods and ambient request data.
- * Uses method injection so other controllers don't need to maintain constructors.
+ * Base for all controllers in app
  */
-public abstract class BaseController {
+@Apply({ CustomResponseHeaders.class, LatencyTimer.class })
+public abstract class BaseController extends DuelController {
 
-	private final Logger log = Logger.getLogger(BaseController.class.getSimpleName());
-	private double timingThreshold;
-	private Provider<DuelContext> viewContextProvider;
-
-	@Inject
-	public void init(
-		@Named("RENDER_THRESHOLD") double timingThreshold,
-		Provider<DuelContext> viewContextProvider) {
-
-		this.timingThreshold = timingThreshold;
-		this.viewContextProvider = viewContextProvider;
-	}
-
-	/**
-	 * Builds a view result
-	 */
-	protected ViewResult view(Class<? extends DuelView> view) {
-		return new TimedViewResult(view, viewContextProvider.get(), log, timingThreshold);
-	}
 }
