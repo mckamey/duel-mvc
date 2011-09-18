@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 /**
  * Manages the action filter chain
  */
-final class ActionFilterInterceptor extends ErrorFilterInterceptor implements MethodInterceptor {
+final class ActionFilterInterceptor implements MethodInterceptor {
 
 	private ActionFilterContextFactory factory;
 
@@ -77,7 +77,7 @@ final class ActionFilterInterceptor extends ErrorFilterInterceptor implements Me
 
 		if (error != null) {
 			// this will rethrow if left unhandled
-			return processErrors(mvcContext, error, context.getResult());
+			return ErrorFilterInterceptor.processErrors(mvcContext, error, context.getResult());
 		}
 
 		return context.getResult();

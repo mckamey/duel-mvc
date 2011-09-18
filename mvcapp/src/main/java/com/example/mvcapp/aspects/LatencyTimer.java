@@ -10,6 +10,7 @@ import org.duelengine.duel.mvc.ErrorFilterContext;
 import org.duelengine.duel.mvc.ResultFilter;
 import org.duelengine.duel.mvc.ResultFilterContext;
 
+import com.example.mvcapp.Globals;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -44,9 +45,9 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 
 	@Inject
 	public LatencyTimer(
-			@Named("ACTION_THRESHOLD") double actionThreshold,
-			@Named("RENDER_THRESHOLD") double renderThreshold,
-			@Named("LATENCY_THRESHOLD") double latencyThreshold) {
+			@Named(Globals.ACTION_THRESHOLD) double actionThreshold,
+			@Named(Globals.RENDER_THRESHOLD) double renderThreshold,
+			@Named(Globals.LATENCY_THRESHOLD) double latencyThreshold) {
 
 		this.actionThreshold = actionThreshold;
 		this.renderThreshold = renderThreshold;

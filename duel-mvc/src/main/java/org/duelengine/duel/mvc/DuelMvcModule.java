@@ -71,6 +71,7 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 	 * AOP interceptor bindings
 	 */
 	private void bindFilterChains() {
+
 		// intercept all controller actions via filter chain
 		install(new FactoryModuleBuilder()
 			.implement(ActionFilterContext.class, ActionFilterContext.class)

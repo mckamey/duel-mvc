@@ -1,7 +1,6 @@
 package com.example.mvcapp.controllers;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.example.mvcapp.model.ErrorResult;
@@ -24,7 +23,12 @@ public class ErrorController extends BaseController {
 	}
 
 	@GET
-	@Path("{path:.*}")
+	@Produces({"text/plain"})
+	public Object errorText(Throwable ex) {
+		return ex.getMessage();
+	}
+
+	@GET
 	@Produces({"text/html", "application/xhtml+xml"})
 	public Object errorView(Throwable ex) {
 		ErrorResult error = this.errorData(ex);
@@ -34,7 +38,6 @@ public class ErrorController extends BaseController {
 	}
 
 	@GET
-	@Path("{path:.*}")
 	@Produces({"application/json", "application/xml"})
 	public ErrorResult errorData(Throwable ex) {
 		return new ErrorResult(ex, this.printStackTrace);

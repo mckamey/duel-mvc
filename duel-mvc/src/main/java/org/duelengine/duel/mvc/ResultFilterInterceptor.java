@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 /**
  * Manages the result filter chain
  */
-final class ResultFilterInterceptor extends ErrorFilterInterceptor implements MethodInterceptor {
+final class ResultFilterInterceptor implements MethodInterceptor {
 
 	private ResultFilterContextFactory factory;
 
@@ -28,6 +28,7 @@ final class ResultFilterInterceptor extends ErrorFilterInterceptor implements Me
 
 		ResultFilterContext context = factory.create((ViewResult)invocation.getThis());
 		DuelMvcContext mvcContext = context.getMvcContext();
+		mvcContext.ensureFilters();
 
 		Throwable error = null;
 
@@ -58,7 +59,7 @@ final class ResultFilterInterceptor extends ErrorFilterInterceptor implements Me
 
 		if (error != null) {
 			// this will rethrow if left unhandled
-			processErrors(mvcContext, error, null);
+			ErrorFilterInterceptor.processErrors(mvcContext, error, null);
 			return null;
 		}
 

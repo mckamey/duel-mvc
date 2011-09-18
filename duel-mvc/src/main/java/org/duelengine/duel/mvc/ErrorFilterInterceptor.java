@@ -1,8 +1,9 @@
 package org.duelengine.duel.mvc;
 
-abstract class ErrorFilterInterceptor {
+final class ErrorFilterInterceptor {
 
-	protected Object processErrors(DuelMvcContext mvcContext, Throwable error, Object result) throws Throwable {
+	public static Object processErrors(DuelMvcContext mvcContext, Throwable error, Object result) throws Throwable {
+		mvcContext.ensureFilters();
 
 		ErrorFilterContext context = new ErrorFilterContext(mvcContext);
 		context.setError(error);

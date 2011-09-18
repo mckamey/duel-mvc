@@ -40,6 +40,13 @@ public class HomeController extends BaseController {
 	}
 
 	@GET
+	@Path("{path:.*}.txt")
+	@Produces("text/plain")
+	public Object getTEXT(@PathParam("path") String path) {
+		return path;
+	}
+
+	@GET
 	@Path("{path:.*}.xml")
 	@Produces("application/xml")
 	public Object getXML(@PathParam("path") String path) {
@@ -59,6 +66,13 @@ public class HomeController extends BaseController {
 	@Produces("application/json")
 	public Object throwErrorJSON() {
 		throw new IllegalStateException("This action always throws an exception in JSON.");
+	}
+
+	@GET
+	@Path("throw.txt")
+	@Produces("text/plain")
+	public Object throwErrorText() {
+		throw new IllegalStateException("This action always throws an exception in TEXT.");
 	}
 
 	@GET

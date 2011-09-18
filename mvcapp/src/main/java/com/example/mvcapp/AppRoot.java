@@ -12,7 +12,7 @@ import org.duelengine.duel.LinkInterceptor;
 import org.duelengine.duel.mvc.DuelMvcContext;
 import org.duelengine.duel.mvc.DuelMvcModule;
 
-import com.example.mvcapp.aspects.ExceptionRouter;
+import com.example.mvcapp.aspects.ErrorHandler;
 import com.example.mvcapp.controllers.BaseController;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -35,20 +35,23 @@ public class AppRoot extends GuiceServletContextListener {
 			private void bindConstants() {
 
 				// CDN server hostname in Stage.PRODUCTION, e.g. "cdn.example.com"
-				bindConstant().annotatedWith(Names.named("CDN_HOST")).to(
-						(currentStage() != Stage.PRODUCTION) ? "" : "cdn.example.com");
+				if (currentStage() == Stage.PRODUCTION) {
+					bindConstant().annotatedWith(Names.named(Globals.CDN_HOST)).to("cdn.example.com");
+				} else {
+					bindConstant().annotatedWith(Names.named(Globals.CDN_HOST)).to("");
+				}
 
 				// name of .properties file containing CDN mappings
-				bindConstant().annotatedWith(Names.named("CDN_MAP")).to("cdn");
+				bindConstant().annotatedWith(Names.named(Globals.CDN_MAP_NAME)).to("cdn");
 
 				// action timing duration threshold in ms
-				bindConstant().annotatedWith(Names.named("ACTION_THRESHOLD")).to(250.0);//ms
+				bindConstant().annotatedWith(Names.named(Globals.ACTION_THRESHOLD)).to(250.0);//ms
 
 				// render timing duration threshold in ms
-				bindConstant().annotatedWith(Names.named("RENDER_THRESHOLD")).to(100.0);//ms
+				bindConstant().annotatedWith(Names.named(Globals.RENDER_THRESHOLD)).to(100.0);//ms
 
 				// request timing duration threshold in ms
-				bindConstant().annotatedWith(Names.named("LATENCY_THRESHOLD")).to(500.0);//ms
+				bindConstant().annotatedWith(Names.named(Globals.LATENCY_THRESHOLD)).to(500.0);//ms
 			}
 
 			/**
@@ -86,8 +89,8 @@ public class AppRoot extends GuiceServletContextListener {
 				// context for each request
 				bind(DuelMvcContext.class).to(AppContext.class);
 
-				// intercept all exceptions
-				bind(ExceptionRouter.class);
+				// unhandled exception mapping
+				bind(ErrorHandler.class);
 			}
 
 			/**
@@ -113,8 +116,8 @@ public class AppRoot extends GuiceServletContextListener {
 			@SuppressWarnings("unused")
 			protected LinkInterceptor linkInterceptorSingleton(
 					Stage stage,
-					@Named("CDN_HOST") String cdnHost,
-					@Named("CDN_MAP") String cdnMapName) {
+					@Named(Globals.CDN_HOST) String cdnHost,
+					@Named(Globals.CDN_MAP_NAME) String cdnMapName) {
 
 				LinkInterceptor linkInterceptor = null;
 

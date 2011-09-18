@@ -54,7 +54,7 @@ public class DuelMvcContext extends DuelContext {
 		return stage;
 	}
 
-	public ExtendedUriInfo uriInfo() {
+	public ExtendedUriInfo getUriInfo() {
 		return uriInfo;
 	}
 
