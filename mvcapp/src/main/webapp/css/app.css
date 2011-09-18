@@ -1,13 +1,5 @@
-html {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	-webkit-font-smoothing: antialiased;
-}
 body, input, button, select, option {
 	font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-	font-size: 100%;
 }
 body {
 	background-color: #BFBAB2; /*shine: #F8F8F8*/
@@ -15,17 +7,10 @@ body {
 	background-image: -moz-radial-gradient(50% 50%, farthest-side, #F8F8F8, #BFBAB2);
 	background-attachment: fixed;
 
+	font-size: 100%;
 	color: #333;
-	height: 100%;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
-	width: 100%;
-}
-header, footer, menu, nav, section, article, aside {
-	/* non-HTML5 browser patch */
-	display: block;
+	-webkit-font-smoothing: antialiased;
 }
 img, embed, object, video {
 	/* fluid image patch */

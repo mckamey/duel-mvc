@@ -1,11 +1,13 @@
 <view name="Page">
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 <head>
 	<meta charset="UTF-8">
 <part name="head">
 	<title></title>
 </part>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
 	<link rel="stylesheet" type="text/css" href="/css/main.merge" />
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
@@ -13,10 +15,20 @@
 </head>
 <body>
 	<script type="text/javascript" src="/js/main.merge"></script>
+
 <div id="content">
+
 	<part />
 
+	<!-- test deferred rendering -->
 	<call view="Menu" defer />
 </div>
+
+	<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+		chromium.org/developers/how-tos/chrome-frame-getting-started -->
+	<!--[if lt IE 7 ]>
+		<script defer src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+		<script defer>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+	<![endif]-->
 </body>
 </html>
