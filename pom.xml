@@ -14,6 +14,7 @@
 
 	<modules>
 		<module>duel-mvc</module>
+		<module>duel-mvc-archetype</module>
 		<module>mvcapp</module>
 	</modules>
 </project>
