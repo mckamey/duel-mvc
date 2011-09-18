@@ -12,21 +12,21 @@ import com.google.inject.Inject;
  */
 final class ResultFilterInterceptor extends ErrorFilterInterceptor implements MethodInterceptor {
 
-	private ResultFilterContextFactory resultCxFactory;
+	private ResultFilterContextFactory factory;
 
 	@Inject
-	void init(ResultFilterContextFactory resultCxFactory) {
-		if (resultCxFactory == null) {
-			throw new NullPointerException("resultCxFactory");
+	void init(ResultFilterContextFactory factory) {
+		if (factory == null) {
+			throw new NullPointerException("factory");
 		}
 
-		this.resultCxFactory = resultCxFactory;
+		this.factory = factory;
 	}
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 
-		ResultFilterContext context = resultCxFactory.create((ViewResult)invocation.getThis());
+		ResultFilterContext context = factory.create((ViewResult)invocation.getThis());
 		DuelMvcContext mvcContext = context.getMvcContext();
 
 		Throwable error = null;

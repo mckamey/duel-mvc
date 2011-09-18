@@ -82,7 +82,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		double latency = (System.nanoTime()-actionStart) / MS_PER_NANO;
 		long count = requestCounter.incrementAndGet();
 
-		String label = context.getViewResult().getViewType().getName()+": "+elapsed+" ms";
+		String label = context.getResult().getViewType().getName()+": "+elapsed+" ms";
 
 		if (elapsed > renderThreshold) {
 			log.warning(label);
