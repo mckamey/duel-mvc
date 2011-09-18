@@ -28,31 +28,30 @@ final class ActionFilterInterceptor extends ErrorFilterInterceptor implements Me
 
 		ActionFilterContext context = factory.create(invocation);
 		DuelMvcContext mvcContext = context.getMvcContext();
-
 		mvcContext.buildFilters(invocation);
-		List<AuthFilter> authChain = mvcContext.getAuthFilters();
-		List<ActionFilter> actionChain = mvcContext.getActionFilters();
 
 		Throwable error = null;
+
+		List<ActionFilter> filterChain = mvcContext.getActionFilters();
 		int index = 0;
 		try {
-			for (int i=0, count=authChain.size(); i<count; i++) {
-				authChain.get(i).onAuthorization(context);
-	
+			for (AuthFilter filter : mvcContext.getAuthFilters()) {
+				filter.onAuthorization(context);
+
 				// allow auth filters to shortcut action method
 				if (context.getResult() != null) {
 					return context.getResult();
 				}
 			}
 
-			for (int count=actionChain.size(); index<count; index++) {
-				actionChain.get(index).onActionExecuting(context);
-	
+			for (int count=filterChain.size(); index<count; index++) {
+				filterChain.get(index).onActionExecuting(context);
+
 				// allow action filters to shortcut action method
 				if (context.getResult() != null) {
 					// only execute the filters which were started
 					for (; index<=0; index--) {
-						actionChain.get(index).onActionExecuted(context);
+						filterChain.get(index).onActionExecuted(context);
 					}
 					return context.getResult();
 				}
@@ -64,9 +63,9 @@ final class ActionFilterInterceptor extends ErrorFilterInterceptor implements Me
 			error = ex;
 		}
 
-		for (index-=1; index>=0; index--) {
+		for (index--; index>=0; index--) {
 			try {
-				actionChain.get(index).onActionExecuted(context);
+				filterChain.get(index).onActionExecuted(context);
 
 			} catch (Throwable ex) {
 				// keep first error
@@ -77,7 +76,8 @@ final class ActionFilterInterceptor extends ErrorFilterInterceptor implements Me
 		}
 
 		if (error != null) {
-			processErrors(mvcContext.getErrorFilters(), error);
+			// this will rethrow if left unhandled
+			return processErrors(mvcContext, error, context.getResult());
 		}
 
 		return context.getResult();

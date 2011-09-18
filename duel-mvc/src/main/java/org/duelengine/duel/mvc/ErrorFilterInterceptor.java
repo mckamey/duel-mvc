@@ -1,33 +1,23 @@
 package org.duelengine.duel.mvc;
 
-import java.util.List;
-
-import com.google.inject.Inject;
-
 abstract class ErrorFilterInterceptor {
 
-	private ErrorFilterContextFactory factory;
+	protected Object processErrors(DuelMvcContext mvcContext, Throwable error, Object result) throws Throwable {
 
-	@Inject
-	void init_ErrorFilterInterceptor(ErrorFilterContextFactory factory) {
-		if (factory == null) {
-			throw new NullPointerException("factory");
-		}
+		ErrorFilterContext context = new ErrorFilterContext(mvcContext);
+		context.setError(error);
+		context.setResult(result);
 
-		this.factory = factory;
-	}
-
-	protected void processErrors(List<ErrorFilter> errorFilters, Throwable error) throws Throwable {
-		ErrorFilterContext context = factory.create(error);
-
-		for (ErrorFilter filter : errorFilters) {
+		for (ErrorFilter filter : mvcContext.getErrorFilters()) {
 			filter.onError(context);
 		}
 
 		// allow error filters to handle exception
 		if (!context.isHandled()) {
 			// unhandled exception
-			throw error;
+			throw context.getError();
 		}
+
+		return context.getResult();
 	}
 }

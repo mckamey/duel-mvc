@@ -15,7 +15,7 @@ final class ResultFilterInterceptor extends ErrorFilterInterceptor implements Me
 	private ResultFilterContextFactory resultCxFactory;
 
 	@Inject
-	void init(ResultFilterContextFactory resultCxFactory, ErrorFilterContextFactory errorCxFactory) {
+	void init(ResultFilterContextFactory resultCxFactory) {
 		if (resultCxFactory == null) {
 			throw new NullPointerException("resultCxFactory");
 		}
@@ -29,9 +29,9 @@ final class ResultFilterInterceptor extends ErrorFilterInterceptor implements Me
 		ResultFilterContext context = resultCxFactory.create((ViewResult)invocation.getThis());
 		DuelMvcContext mvcContext = context.getMvcContext();
 
-		List<ResultFilter> renderChain = mvcContext.getResultFilters();
-
 		Throwable error = null;
+
+		List<ResultFilter> renderChain = mvcContext.getResultFilters();
 		int index = 0;
 		try {
 			for (int count=renderChain.size(); index<count; index++) {
@@ -44,7 +44,7 @@ final class ResultFilterInterceptor extends ErrorFilterInterceptor implements Me
 			error = ex;
 		}
 
-		for (index-=1; index>=0; index--) {
+		for (index--; index>=0; index--) {
 			try {
 				renderChain.get(index).onResultRendered(context);
 
@@ -57,7 +57,9 @@ final class ResultFilterInterceptor extends ErrorFilterInterceptor implements Me
 		}
 
 		if (error != null) {
-			processErrors(mvcContext.getErrorFilters(), error);
+			// this will rethrow if left unhandled
+			processErrors(mvcContext, error, null);
+			return null;
 		}
 
 		// invocation is void method
