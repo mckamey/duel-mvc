@@ -27,7 +27,7 @@ Usage
 	mvn archetype:generate \
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=duel-mvc-archetype \
-		-DarchetypeVersion=0.2.1
+		-DarchetypeVersion=0.3.0
 
 	# build your project
 	# NOTE: replace "mvcapp" with your chosen artifact name
@@ -37,7 +37,7 @@ Usage
 	mvn archetype:generate \
 		-DarchetypeGroupId=org.duelengine \
 		-DarchetypeArtifactId=war-bootstrap-archetype \
-		-DarchetypeVersion=0.2.1
+		-DarchetypeVersion=0.2.2
 
 	# build your boostrap
 	# NOTE: replace "bootstrap" with your chosen artifact name
