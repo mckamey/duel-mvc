@@ -10,44 +10,57 @@ import com.google.inject.Inject;
 /**
  * Manages the result filter chain
  */
-final class ResultFilterInterceptor implements MethodInterceptor {
+final class ResultFilterInterceptor extends ErrorFilterInterceptor implements MethodInterceptor {
 
-	private ResultFilterContextFactory factory;
+	private ResultFilterContextFactory resultCxFactory;
 
 	@Inject
-	void init(ResultFilterContextFactory factory) {
-		if (factory == null) {
-			throw new NullPointerException("factory");
+	void init(ResultFilterContextFactory resultCxFactory, ErrorFilterContextFactory errorCxFactory) {
+		if (resultCxFactory == null) {
+			throw new NullPointerException("resultCxFactory");
 		}
 
-		this.factory = factory;
+		this.resultCxFactory = resultCxFactory;
 	}
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 
-		ResultFilterContext context = factory.create((ViewResult)invocation.getThis());
+		ResultFilterContext context = resultCxFactory.create((ViewResult)invocation.getThis());
 		DuelMvcContext mvcContext = context.getMvcContext();
 
-		List<ResultFilter> chain = mvcContext.getResultFilters();
+		List<ResultFilter> renderChain = mvcContext.getResultFilters();
 
-		Object result;
+		Throwable error = null;
+		int index = 0;
 		try {
-			for (ResultFilter filter : chain) {
-				filter.onResultExecuting(context);
+			for (int count=renderChain.size(); index<count; index++) {
+				renderChain.get(index).onResultRendering(context);
 			}
-			result = invocation.proceed();
+
+			invocation.proceed();
 
 		} catch (Throwable ex) {
-			// TODO: call ExceptionFilter.onException()
-			throw ex;
+			error = ex;
+		}
 
-		} finally {
-			for (ResultFilter filter : chain) {
-				filter.onResultExecuted(context);
+		for (index-=1; index>=0; index--) {
+			try {
+				renderChain.get(index).onResultRendered(context);
+
+			} catch (Throwable ex) {
+				// keep first error
+				if (error == null) {
+					error = ex;
+				}
 			}
 		}
 
-		return result;
+		if (error != null) {
+			processErrors(mvcContext.getErrorFilters(), error);
+		}
+
+		// invocation is void method
+		return null;
 	}
 }

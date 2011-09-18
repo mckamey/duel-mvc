@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 /**
  * Manages the action filter chain
  */
-final class ActionFilterInterceptor implements MethodInterceptor {
+final class ActionFilterInterceptor extends ErrorFilterInterceptor implements MethodInterceptor {
 
 	private ActionFilterContextFactory factory;
 
@@ -29,27 +29,57 @@ final class ActionFilterInterceptor implements MethodInterceptor {
 		ActionFilterContext context = factory.create(invocation);
 		DuelMvcContext mvcContext = context.getMvcContext();
 
-		mvcContext.ensureFilters(invocation);
+		mvcContext.buildFilters(invocation);
+		List<AuthFilter> authChain = mvcContext.getAuthFilters();
+		List<ActionFilter> actionChain = mvcContext.getActionFilters();
 
-		List<ActionFilter> chain = mvcContext.getActionFilters();
-
-		Object result;
+		Throwable error = null;
+		int index = 0;
 		try {
-			for (ActionFilter filter : chain) {
-				filter.onActionExecuting(context);
+			for (int i=0, count=authChain.size(); i<count; i++) {
+				authChain.get(i).onAuthorization(context);
+	
+				// allow auth filters to shortcut action method
+				if (context.getResult() != null) {
+					return context.getResult();
+				}
 			}
-			result = invocation.proceed();
+
+			for (int count=actionChain.size(); index<count; index++) {
+				actionChain.get(index).onActionExecuting(context);
+	
+				// allow action filters to shortcut action method
+				if (context.getResult() != null) {
+					// only execute the filters which were started
+					for (; index<=0; index--) {
+						actionChain.get(index).onActionExecuted(context);
+					}
+					return context.getResult();
+				}
+			}
+
+			context.setResult(invocation.proceed());
 
 		} catch (Throwable ex) {
-			// TODO: call ExceptionFilter.onException()
-			throw ex;
+			error = ex;
+		}
 
-		} finally {
-			for (ActionFilter filter : chain) {
-				filter.onActionExecuted(context);
+		for (index-=1; index>=0; index--) {
+			try {
+				actionChain.get(index).onActionExecuted(context);
+
+			} catch (Throwable ex) {
+				// keep first error
+				if (error != null) {
+					error = ex;
+				}
 			}
 		}
 
-		return result;
+		if (error != null) {
+			processErrors(mvcContext.getErrorFilters(), error);
+		}
+
+		return context.getResult();
 	}
 }

@@ -11,6 +11,7 @@ public class ActionFilterContext {
 
 	private final DuelMvcContext context;
 	private final MethodInvocation invocation;
+	private Object result;
 
 	@AssistedInject
 	public ActionFilterContext(
@@ -42,5 +43,13 @@ public class ActionFilterContext {
 
 	public Object[] getArguments() {
 		return invocation.getArguments();
+	}
+
+	public Object getResult() {
+		return result;
+	}
+
+	public void setResult(Object value) {
+		result = value;
 	}
 }

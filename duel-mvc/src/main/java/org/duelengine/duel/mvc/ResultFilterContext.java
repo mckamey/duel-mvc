@@ -6,7 +6,7 @@ import com.google.inject.assistedinject.AssistedInject;
 public class ResultFilterContext {
 
 	private final DuelMvcContext context;
-	private final ViewResult viewResult;
+	private ViewResult viewResult;
 
 	@AssistedInject
 	public ResultFilterContext(
@@ -26,5 +26,13 @@ public class ResultFilterContext {
 
 	public ViewResult getViewResult() {
 		return viewResult;
+	}
+
+	public void setViewResult(ViewResult value) {
+		if (value == null) {
+			throw new NullPointerException("value");
+		}
+
+		viewResult = value;
 	}
 }

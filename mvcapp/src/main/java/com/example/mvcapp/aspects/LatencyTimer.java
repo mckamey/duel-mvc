@@ -5,17 +5,20 @@ import java.util.logging.Logger;
 
 import org.duelengine.duel.mvc.ActionFilter;
 import org.duelengine.duel.mvc.ActionFilterContext;
+import org.duelengine.duel.mvc.ErrorFilter;
+import org.duelengine.duel.mvc.ErrorFilterContext;
 import org.duelengine.duel.mvc.ResultFilter;
 import org.duelengine.duel.mvc.ResultFilterContext;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class LatencyTimer implements ActionFilter, ResultFilter {
+public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 
-	private static final AtomicLong counter = new AtomicLong();
-	private static final double NANO2MS = 1000000.0;
-	private static final Logger log = Logger.getLogger("LatencyFilter");
+	private static final AtomicLong requestCounter = new AtomicLong();
+	private static final AtomicLong errorCounter = new AtomicLong();
+	private static final double MS_PER_NANO = 1e6;
+	private static final Logger log = Logger.getLogger(LatencyTimer.class.getSimpleName());
 
 	private final double actionThreshold;
 	private final double renderThreshold;
@@ -28,9 +31,17 @@ public class LatencyTimer implements ActionFilter, ResultFilter {
 	 * @return
 	 */
 	public static long getRequestCount() {
-		return counter.get();
+		return requestCounter.get();
 	}
-	
+
+	/**
+	 * Gets the count of requests
+	 * @return
+	 */
+	public static long getErrorCount() {
+		return errorCounter.get();
+	}
+
 	@Inject
 	public LatencyTimer(
 			@Named("ACTION_THRESHOLD") double actionThreshold,
@@ -49,7 +60,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter {
 
 	@Override
 	public void onActionExecuted(ActionFilterContext context) {
-		double elapsed = (System.nanoTime()-actionStart) / NANO2MS;//ms
+		double elapsed = (System.nanoTime()-actionStart) / MS_PER_NANO;
 
 		String label = context.getController().getClass().getName()+": "+elapsed+" ms";
 
@@ -61,13 +72,15 @@ public class LatencyTimer implements ActionFilter, ResultFilter {
 	}
 
 	@Override
-	public void onResultExecuting(ResultFilterContext context) {
+	public void onResultRendering(ResultFilterContext context) {
 		renderStart = System.nanoTime();
 	}
 
 	@Override
-	public void onResultExecuted(ResultFilterContext context) {
-		double elapsed = (System.nanoTime()-renderStart) / NANO2MS;//ms
+	public void onResultRendered(ResultFilterContext context) {
+		double elapsed = (System.nanoTime()-renderStart) / MS_PER_NANO;
+		double latency = (System.nanoTime()-actionStart) / MS_PER_NANO;
+		long count = requestCounter.incrementAndGet();
 
 		String label = context.getViewResult().getViewType().getName()+": "+elapsed+" ms";
 
@@ -77,15 +90,17 @@ public class LatencyTimer implements ActionFilter, ResultFilter {
 			log.info(label);
 		}
 
-		double latency = (System.nanoTime()-actionStart) / NANO2MS;//ms
-		long count = counter.incrementAndGet();
-
-		label = "Request latency: "+latency+" ms (counter: "+count+")";
+		label = "Request latency: "+latency+" ms (requests: "+count+", errors: "+errorCounter.get()+")";
 
 		if (latency > latencyThreshold) {
 			log.warning(label);
 		} else {
 			log.info(label);
 		}
+	}
+
+	@Override
+	public void onError(ErrorFilterContext context) {
+		errorCounter.incrementAndGet();
 	}
 }

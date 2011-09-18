@@ -5,7 +5,7 @@ package org.duelengine.duel.mvc;
  */
 public interface ResultFilter extends DuelMvcFilter {
 
-	void onResultExecuting(ResultFilterContext context);
+	void onResultRendering(ResultFilterContext context);
 
-	void onResultExecuted(ResultFilterContext context);
+	void onResultRendered(ResultFilterContext context);
 }
