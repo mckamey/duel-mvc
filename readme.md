@@ -22,8 +22,6 @@ Environment
 
 Usage
 -----
-	#!/bin/sh
-	
 	# NOTE: you'll want to change these values for your project
 	GROUP_ID="com.example"
 	ROOT_DIR="myapp"
@@ -47,7 +45,7 @@ Usage
 	mvn archetype:generate \
 	  -DarchetypeGroupId=org.duelengine \
 	  -DarchetypeArtifactId=duel-mvc-archetype \
-	  -DarchetypeVersion=0.3.0 \
+	  -DarchetypeVersion=0.3.3 \
 	  -DgroupId=$GROUP_ID \
 	  -DartifactId=$MVC_APP \
 	  -Dversion=$VERSION \
