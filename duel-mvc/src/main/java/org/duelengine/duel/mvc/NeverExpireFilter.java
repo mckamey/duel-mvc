@@ -6,7 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 /**
- * Sets cache control to "never" expire.
+ * Sets cache control to "never" expire & enables cross-origin access.
  *
  * Only use for SHA1-named CDN resources which change name as content changes.
  * 
@@ -15,6 +15,12 @@ import javax.servlet.http.*;
  * To mark a response as "never expires," an origin server sends an
  * Expires date approximately one year from the time the response is sent.
  * HTTP/1.1 servers SHOULD NOT send Expires dates more than one year in the future.
+ * 
+ * CDN-based resources require permission to be accessed from another domain.
+ * e.g. without, CSS references to other resources like fonts may be blocked
+ *
+ * http://www.w3.org/TR/cors/#access-control-allow-origin-response-hea
+ * https://developer.mozilla.org/En/HTTP_access_control#Access-Control-Allow-Origin
  */
 class NeverExpireFilter implements Filter {
 
@@ -35,6 +41,10 @@ class NeverExpireFilter implements Filter {
 
 			// add cache control response headers
 			httpResponse.setDateHeader("Expires", expiryDate);
+
+			// add header to enable CDN cross-origin access
+			// not conditionally sent since CDN will cache
+			httpResponse.setHeader("Access-Control-Allow-Origin", "*");
 		}
 
 		chain.doFilter(request, response);

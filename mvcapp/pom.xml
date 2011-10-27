@@ -5,7 +5,7 @@
 
 	<groupId>com.example</groupId>
 	<artifactId>mvcapp</artifactId>
-	<version>0.3.3</version>
+	<version>${mvc.version}</version>
 	<packaging>war</packaging>
 
 	<name>Example MVC App</name>
@@ -14,6 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<mvc.version>0.6.1</mvc.version>
 		<duel.version>0.6.0</duel.version>
 		<merge.version>0.3.0</merge.version>
 		<jackson.version>1.8.5</jackson.version>
@@ -42,10 +43,11 @@
 			<artifactId>duel-runtime</artifactId>
 			<version>${duel.version}</version>
 		</dependency>
+		<!-- DUEL-MVC runtime -->
 		<dependency>
 			<groupId>org.duelengine</groupId>
 			<artifactId>duel-mvc</artifactId>
-			<version>${duel.version}</version>
+			<version>${mvc.version}</version>
 		</dependency>
 
 		<!-- Jackson JSON runtime -->

@@ -45,7 +45,7 @@ Usage
 	mvn archetype:generate \
 	  -DarchetypeGroupId=org.duelengine \
 	  -DarchetypeArtifactId=duel-mvc-archetype \
-	  -DarchetypeVersion=0.3.3 \
+	  -DarchetypeVersion=0.6.1 \
 	  -DgroupId=$GROUP_ID \
 	  -DartifactId=$MVC_APP \
 	  -Dversion=$VERSION \

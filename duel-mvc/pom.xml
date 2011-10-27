@@ -11,11 +11,11 @@
 
 	<groupId>org.duelengine</groupId>
 	<artifactId>duel-mvc</artifactId>
-	<version>0.6.0</version>
+	<version>0.6.1</version>
 	<packaging>jar</packaging>
 
 	<name>DUEL-MVC</name>
-	<description>MVC engine built using Jersey 1.9, Guice 3.0, DUEL views 0.6.0</description>
+	<description>MVC engine built using Jersey ${jersey.version}, Guice ${guice.version}, DUEL views ${duel.version}</description>
 	<url>http://duelengine.org</url>
 	<licenses>
 		<license>
@@ -39,6 +39,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<duel.version>0.6.0</duel.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.9</jersey.version>
 		<servlet.version>2.5</servlet.version>
@@ -51,7 +52,7 @@
 		<dependency>
 			<groupId>org.duelengine</groupId>
 			<artifactId>duel-runtime</artifactId>
-			<version>${project.version}</version>
+			<version>${duel.version}</version>
 		</dependency>
 
 		<!-- Guice runtime -->
