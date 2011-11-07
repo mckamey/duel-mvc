@@ -17,7 +17,7 @@ Environment
 	http://www.eclipse.org/downloads/
 - m2e 1.0.0
 	http://www.eclipse.org/m2e/download/
-- JRebel 4.0.2
+- JRebel 4.5.2
 	http://www.zeroturnaround.com/jrebel/current/
 
 Usage
@@ -26,8 +26,12 @@ Usage
 	GROUP_ID="com.example"
 	ROOT_DIR="myapp"
 	MVC_APP="foo"
+	VERSION="1.0-SNAPSHOT"
 	BOOTSTRAP="bootstrap"
-	VERSION="0.1.0"
+	
+	# NOTE: make sure these are the latest versions
+	ARCHETYPE_VER="0.6.2"
+	BOOTSTRAP_VER="0.2.2"
 	
 	# generate a root project folder
 	mvn archetype:generate \
@@ -45,7 +49,7 @@ Usage
 	mvn archetype:generate \
 	  -DarchetypeGroupId=org.duelengine \
 	  -DarchetypeArtifactId=duel-mvc-archetype \
-	  -DarchetypeVersion=0.6.1 \
+	  -DarchetypeVersion=$ARCHETYPE_VER \
 	  -DgroupId=$GROUP_ID \
 	  -DartifactId=$MVC_APP \
 	  -Dversion=$VERSION \
@@ -56,7 +60,7 @@ Usage
 	mvn archetype:generate \
 	  -DarchetypeGroupId=org.duelengine \
 	  -DarchetypeArtifactId=war-bootstrap-archetype \
-	  -DarchetypeVersion=0.2.2 \
+	  -DarchetypeVersion=$BOOTSTRAP_VER \
 	  -DgroupId=$GROUP_ID \
 	  -DartifactId=$BOOTSTRAP \
 	  -Dversion=$VERSION \
@@ -96,10 +100,11 @@ Development
 
 		mvn clean package && \
 		java $JREBEL_OPTS \
+			-Drebel.jersey_plugin=true \
 			-jar bootstrap/target/bootstrap.jar \
 			-war mvcapp/target/mvcapp/
 
 2. View at `http://127.0.0.1:8080/`
 3. Edit with Eclipse... refresh browser
 4. Repeat
-5. Restart on Guice binding changes / major refactorings as these don't seem to propagate as well
+5. May need to restart on Guice binding changes / major refactorings as these may not propagate as well

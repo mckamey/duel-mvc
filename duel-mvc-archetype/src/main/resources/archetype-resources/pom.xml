@@ -17,17 +17,17 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<mvc.version>0.6.1</mvc.version>
-		<duel.version>0.6.0</duel.version>
-		<merge.version>0.3.0</merge.version>
+		<mvc.version>0.6.2</mvc.version>
+		<duel.version>0.6.3</duel.version>
+		<merge.version>0.3.1</merge.version>
 		<jackson.version>1.8.5</jackson.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.9</jersey.version>
 		<servlet.version>2.5</servlet.version>
 		<junit.version>4.8.2</junit.version>
 		<m2e.version>1.0.0</m2e.version>
+		<jrebel.version>1.1.0</jrebel.version>
 		<javac.version>1.6</javac.version>
-		<jrebel.version>1.0.5</jrebel.version>
 
 		<duel.clientPrefix>App</duel.clientPrefix>
 		<duel.serverPrefix>${package}.views</duel.serverPrefix>
@@ -166,8 +166,22 @@
 			<!-- JRebel Config -->
 			<plugin>
 				<groupId>org.zeroturnaround</groupId>
-				<artifactId>javarebel-maven-plugin</artifactId>
+				<artifactId>jrebel-maven-plugin</artifactId>
 				<version>${jrebel.version}</version>
+				<configuration>
+					<web>
+						<resources>
+							<resource>
+								<target>${merge.cdnRoot}</target>
+								<directory>${project.build.directory}/${project.build.finalName}${merge.cdnRoot}</directory>
+							</resource>
+							<resource>
+								<target>${duel.clientPath}</target>
+								<directory>${project.build.directory}/${project.build.finalName}${duel.clientPath}</directory>
+							</resource>
+						</resources>
+					</web>
+				</configuration>
 				<executions>
 					<execution>
 						<id>generate-rebel-xml</id>
@@ -227,7 +241,7 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>org.zeroturnaround</groupId>
-										<artifactId>javarebel-maven-plugin</artifactId>
+										<artifactId>jrebel-maven-plugin</artifactId>
 										<versionRange>[${jrebel.version},)</versionRange>
 										<goals>
 											<goal>generate</goal>

@@ -4,8 +4,12 @@
 GROUP_ID="com.example"
 ROOT_DIR="myapp"
 MVC_APP="foo"
+VERSION="1.0-SNAPSHOT"
 BOOTSTRAP="bootstrap"
-VERSION="0.1.0"
+
+# NOTE: make sure these are the latest versions
+ARCHETYPE_VER="0.6.2"
+BOOTSTRAP_VER="0.2.2"
 
 # generate a root project folder
 mvn archetype:generate \
@@ -23,7 +27,7 @@ cd $ROOT_DIR
 mvn archetype:generate \
   -DarchetypeGroupId=org.duelengine \
   -DarchetypeArtifactId=duel-mvc-archetype \
-  -DarchetypeVersion=0.3.0 \
+  -DarchetypeVersion=$ARCHETYPE_VER \
   -DgroupId=$GROUP_ID \
   -DartifactId=$MVC_APP \
   -Dversion=$VERSION \
@@ -34,7 +38,7 @@ mvn archetype:generate \
 mvn archetype:generate \
   -DarchetypeGroupId=org.duelengine \
   -DarchetypeArtifactId=war-bootstrap-archetype \
-  -DarchetypeVersion=0.2.2 \
+  -DarchetypeVersion=$BOOTSTRAP_VER \
   -DgroupId=$GROUP_ID \
   -DartifactId=$BOOTSTRAP \
   -Dversion=$VERSION \

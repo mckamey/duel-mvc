@@ -13,11 +13,11 @@
 
 	<groupId>org.duelengine</groupId>
 	<artifactId>duel-mvc-archetype</artifactId>
-	<version>0.6.1</version>
+	<version>0.6.2</version>
 	<packaging>maven-archetype</packaging>
 
 	<name>DUEL MVC Archetype</name>
-	<description>MVC project archetype using Jersey 1.9, Guice 3.0, DUEL views 0.6.0, DUEL merge 0.3.0</description>
+	<description>MVC project archetype using Jersey 1.9, Guice 3.0, DUEL views 0.6.3, DUEL merge 0.3.1</description>
 	<url>http://duelengine.org</url>
 	<licenses>
 		<license>
