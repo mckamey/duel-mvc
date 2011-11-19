@@ -2,7 +2,7 @@
 
 /**
  * @fileoverview duel.js: client-side engine
- * @version DUEL v0.6.3 http://duelengine.org
+ * @version DUEL v0.7.0 http://duelengine.org
  * 
  * Copyright (c) 2006-2011 Stephen M. McKamey
  * Licensed under the MIT License (http://duelengine.org/license.txt)
@@ -423,45 +423,58 @@ var duel = (
 					for (var i=1, length=child.length; i<length; i++) {
 						append(parent, child[i]);
 					}
+
 				} else {
 					// child is an element array
 					parent.push(child);
 				}
 				break;
-	
+
 			case OBJ:
 				// child is attributes object
-				var old = parent[1];
-				if (getType(old) === OBJ) {
-					// merge attribute objects
-					for (var key in child) {
-						if (child.hasOwnProperty(key)) {
-							old[key] = child[key];
-						}
-					}
+				if (parent.length === 1) {
+					parent.push(child);
+
 				} else {
-					// insert attributes object
-					parent.splice(1, 0, child);
+					var old = parent[1];
+					if (getType(old) === OBJ) {
+						// merge attribute objects
+						for (var key in child) {
+							if (child.hasOwnProperty(key)) {
+								old[key] = child[key];
+							}
+						}
+
+					} else {
+						// insert attributes object
+						parent.splice(1, 0, child);
+					}
 				}
 				break;
 
 			case VAL:
-				var last = parent.length-1;
-				if (last > 0 && getType(parent[last]) === VAL) {
-					// combine string literals
-					parent[last] = '' + parent[last] + child;
-				} else if (child !== '') {
-					// convert primitive to string literal and append
-					parent.push('' + child);
+				if (child !== '') {
+					// coerce primitive to string literal
+					child = '' + child;
+
+					var last = parent.length-1;
+					if (last > 0 && getType(parent[last]) === VAL) {
+						// combine string literals
+						parent[last] += child;
+
+					} else {
+						// append
+						parent.push(child);
+					}
 				}
 				break;
-	
+
 			case NUL:
 				// cull empty values
 				break;
-	
+
 			default:
-				// directly append
+				// append others
 				parent.push(child);
 				break;
 		}
@@ -568,6 +581,7 @@ var duel = (
 
 			// just bind to single value
 			items = obj;
+
 		} else {
 			// evaluate for-each loop
 			items = args[EACH];
@@ -584,6 +598,7 @@ var duel = (
 				// Closure Compiler type cast
 				append(result, bindContent(/** @type {Array} */(node), items[i], i, length, null, parts));
 			}
+
 		} else if (type !== NUL) {
 			// just bind the single value
 			// Closure Compiler type cast
@@ -709,7 +724,7 @@ var duel = (
 			case FUN:
 				// execute code block
 				// Closure Compiler type cast
-				return asString((/** @type {function(*,*,*,*):(Object|null)} */ (node))(data, index, count, key));
+				return (/** @type {function(*,*,*,*):(Object|null)} */ (node))(data, index, count, key);
 
 			case ARY:
 				// inspect element name for template commands

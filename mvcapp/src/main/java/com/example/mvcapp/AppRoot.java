@@ -3,7 +3,6 @@ package com.example.mvcapp;
 import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 
-import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
@@ -58,12 +57,14 @@ public class AppRoot extends GuiceServletContextListener {
 			 * Static URL route bindings
 			 */
 			@Override
-			protected void bindStaticRoutes(HttpServlet defaultServlet, Filter neverExpire) {
+			protected void bindStaticRoutes() {
 				// http://google-guice.googlecode.com/svn/trunk/javadoc/com/google/inject/servlet/ServletModule.html
 
+				HttpServlet defaultServlet = getDefaultServlet();
+
 				serve(
-					"/robots.txt",
-					"/favicon.ico"
+					"/favicon.ico",
+					"/robots.txt"
 				).with(defaultServlet);
 
 				serveRegex(
@@ -75,7 +76,17 @@ public class AppRoot extends GuiceServletContextListener {
 
 				filterRegex(
 					"/cdn/.*"
-				).through(neverExpire);
+				).through( getNeverExpireFilter() );
+
+				// add GZIP to non-compressed resources, but not .woff or images
+				filterRegex(
+					".*\\.css",
+					".*\\.eot",
+					".*\\.js",
+					".*\\.svg",
+					".*\\.ttf",
+					".*\\.txt"
+				).through( getGzipFilter() );
 			}
 
 			@Override

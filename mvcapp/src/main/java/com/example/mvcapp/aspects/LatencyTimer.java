@@ -1,7 +1,6 @@
 package com.example.mvcapp.aspects;
 
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
 
 import org.duelengine.duel.mvc.ActionFilter;
 import org.duelengine.duel.mvc.ActionFilterContext;
@@ -9,6 +8,8 @@ import org.duelengine.duel.mvc.ErrorFilter;
 import org.duelengine.duel.mvc.ErrorFilterContext;
 import org.duelengine.duel.mvc.ResultFilter;
 import org.duelengine.duel.mvc.ResultFilterContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.mvcapp.Globals;
 import com.google.inject.Inject;
@@ -19,7 +20,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 	private static final AtomicLong requestCounter = new AtomicLong();
 	private static final AtomicLong errorCounter = new AtomicLong();
 	private static final double MS_PER_NANO = 1e6;
-	private static final Logger log = Logger.getLogger(LatencyTimer.class.getSimpleName());
+	private static final Logger log = LoggerFactory.getLogger(LatencyTimer.class);
 
 	private final double actionThreshold;
 	private final double renderThreshold;
@@ -66,7 +67,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		String label = context.getController().getClass().getName()+": "+elapsed+" ms";
 
 		if (elapsed > actionThreshold) {
-			log.warning(label);
+			log.warn(label);
 		} else {
 			log.info(label);
 		}
@@ -86,7 +87,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		String label = context.getResult().getViewType().getName()+": "+elapsed+" ms";
 
 		if (elapsed > renderThreshold) {
-			log.warning(label);
+			log.warn(label);
 		} else {
 			log.info(label);
 		}
@@ -94,7 +95,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		label = "Request latency: "+latency+" ms (requests: "+count+", errors: "+errorCounter.get()+")";
 
 		if (latency > latencyThreshold) {
-			log.warning(label);
+			log.warn(label);
 		} else {
 			log.info(label);
 		}

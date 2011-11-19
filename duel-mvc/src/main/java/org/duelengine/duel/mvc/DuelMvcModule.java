@@ -19,8 +19,34 @@ import com.google.inject.matcher.AbstractMatcher;
 import com.google.inject.matcher.Matchers;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import net.sf.ehcache.constructs.web.filter.GzipFilter;
 
 public abstract class DuelMvcModule extends JerseyServletModule {
+
+	private final HttpServlet defaultServlet = new DefaultWrapperServlet();
+	private final Filter neverExpireFilter = new NeverExpireFilter();
+	private final Filter gzipFilter = new GzipFilter();
+
+	/**
+	 * Standard static file servlet
+	 */
+	protected HttpServlet getDefaultServlet() {
+		return defaultServlet;
+	}
+
+	/**
+	 * Servlet Filter which sets the cache control headers to never expire
+	 */
+	protected Filter getNeverExpireFilter() {
+		return neverExpireFilter;
+	}
+
+	/**
+	 * Servlet Filter which GZIP compresses response
+	 */
+	protected Filter getGzipFilter() {
+		return gzipFilter;
+	}
 
 	/**
 	 * Miscellaneous IoC configuration
@@ -30,12 +56,9 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 	/**
 	 * Static URL route bindings
 	 * 
-	 * @param defaultServlet standard static file servlet
-	 * @param neverExpire filter which sets the cache control headers to never expire
-	 * 
 	 * http://google-guice.googlecode.com/svn/trunk/javadoc/com/google/inject/servlet/ServletModule.html
 	 */
-	protected abstract void bindStaticRoutes(HttpServlet defaultServlet, Filter neverExpire);
+	protected abstract void bindStaticRoutes();
 
 	/**
 	 * Gets the set of packages containing all MVC controllers.
@@ -160,7 +183,7 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 		// the rest effectively replaces /WEB-INF/web.xml
 
 		// map static routes
-		bindStaticRoutes(new DefaultWrapperServlet(), new NeverExpireFilter());
+		bindStaticRoutes();
 
         // map all other routes to Guice
 		// http://jersey.java.net/nonav/apidocs/latest/contribs/jersey-guice/com/sun/jersey/guice/spi/container/servlet/package-summary.html

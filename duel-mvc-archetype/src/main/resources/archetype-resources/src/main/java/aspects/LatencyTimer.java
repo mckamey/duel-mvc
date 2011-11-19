@@ -4,14 +4,16 @@
 package ${package}.aspects;
 
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
 
+import org.duelengine.duel.compiler.DuelCompiler;
 import org.duelengine.duel.mvc.ActionFilter;
 import org.duelengine.duel.mvc.ActionFilterContext;
 import org.duelengine.duel.mvc.ErrorFilter;
 import org.duelengine.duel.mvc.ErrorFilterContext;
 import org.duelengine.duel.mvc.ResultFilter;
 import org.duelengine.duel.mvc.ResultFilterContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ${package}.Globals;
 import com.google.inject.Inject;
@@ -22,7 +24,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 	private static final AtomicLong requestCounter = new AtomicLong();
 	private static final AtomicLong errorCounter = new AtomicLong();
 	private static final double MS_PER_NANO = 1e6;
-	private static final Logger log = Logger.getLogger(LatencyTimer.class.getSimpleName());
+	private static final Logger log = LoggerFactory.getLogger(LatencyTimer.class);
 
 	private final double actionThreshold;
 	private final double renderThreshold;
