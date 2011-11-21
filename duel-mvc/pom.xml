@@ -41,10 +41,10 @@
 
 		<duel.version>0.7.0</duel.version>
 		<guice.version>3.0</guice.version>
-		<jersey.version>1.9</jersey.version>
+		<jersey.version>1.9.1</jersey.version>
 		<ehcache.version>2.0.4</ehcache.version>
 		<servlet.version>2.5</servlet.version>
-		<junit.version>4.8.2</junit.version>
+		<junit.version>4.9</junit.version>
 		<jvm.version>1.6</jvm.version>
 	</properties>
 
