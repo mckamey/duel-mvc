@@ -5,7 +5,6 @@ package ${package}.aspects;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.duelengine.duel.compiler.DuelCompiler;
 import org.duelengine.duel.mvc.ActionFilter;
 import org.duelengine.duel.mvc.ActionFilterContext;
 import org.duelengine.duel.mvc.ErrorFilter;
@@ -71,7 +70,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		String label = context.getController().getClass().getName()+": "+elapsed+" ms";
 
 		if (elapsed > actionThreshold) {
-			log.warning(label);
+			log.warn(label);
 		} else {
 			log.info(label);
 		}
@@ -91,7 +90,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		String label = context.getResult().getViewType().getName()+": "+elapsed+" ms";
 
 		if (elapsed > renderThreshold) {
-			log.warning(label);
+			log.warn(label);
 		} else {
 			log.info(label);
 		}
@@ -99,7 +98,7 @@ public class LatencyTimer implements ActionFilter, ResultFilter, ErrorFilter {
 		label = "Request latency: "+latency+" ms (requests: "+count+", errors: "+errorCounter.get()+")";
 
 		if (latency > latencyThreshold) {
-			log.warning(label);
+			log.warn(label);
 		} else {
 			log.info(label);
 		}

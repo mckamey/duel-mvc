@@ -30,7 +30,7 @@ Usage
 	BOOTSTRAP="bootstrap"
 	
 	# NOTE: make sure these are the latest versions
-	ARCHETYPE_VER="0.7.0"
+	ARCHETYPE_VER="0.7.1"
 	BOOTSTRAP_VER="0.2.2"
 	
 	# generate a root project folder
