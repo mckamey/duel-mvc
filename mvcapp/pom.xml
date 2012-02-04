@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -13,9 +15,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<resourcesDir>${project.basedir}/src/main/resources</resourcesDir>
 
-		<mvc.version>0.7.0</mvc.version>
-		<duel.version>0.7.0</duel.version>
+		<mvc.version>0.8.0</mvc.version>
+		<duel.version>0.8.0</duel.version>
 		<merge.version>0.4.0</merge.version>
 		<jackson.version>1.9.2</jackson.version>
 		<guice.version>3.0</guice.version>
@@ -29,7 +32,7 @@
 
 		<duel.clientPrefix>App</duel.clientPrefix>
 		<duel.serverPrefix>com.example.mvcapp.views</duel.serverPrefix>
-		<duel.sourceDir>${project.basedir}/src/main/resources/views/</duel.sourceDir>
+		<duel.sourceDir>${resourcesDir}/views/</duel.sourceDir>
 		<duel.clientPath>/js/views/</duel.clientPath>
 
 		<merge.cdnMapFile>/cdn.properties</merge.cdnMapFile>
@@ -132,7 +135,28 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>${resourcesDir}</directory>
+				<excludes>
+					<!-- exclude DUEL sources from target output -->
+					<exclude>**/*.duel</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<plugins>
+			<!-- Generate special classes-only JAR -->
+			<!-- http://eureka.ykyuen.info/2009/10/30/maven-dependency-on-jarwar-package/ -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+					<classesClassifier>classes</classesClassifier>
+				</configuration>
+			</plugin>
 
 			<!-- DUEL Compiler -->
 			<plugin>
