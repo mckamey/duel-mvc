@@ -25,6 +25,7 @@ public class CustomResponseHeaders implements ResultFilter {
 	@Override
 	public void onResultRendering(ResultFilterContext context) {
 		response.addHeader("X-UA-Compatible", "IE=edge,chrome=1");
+//		response.addHeader("X-Frame-Options", "sameorigin");
 	}
 
 	@Override
