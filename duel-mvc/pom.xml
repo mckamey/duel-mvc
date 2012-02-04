@@ -11,7 +11,7 @@
 
 	<groupId>org.duelengine</groupId>
 	<artifactId>duel-mvc</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1</version>
 	<packaging>jar</packaging>
 
 	<name>DUEL-MVC</name>
@@ -39,7 +39,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<duel.version>0.8.0</duel.version>
+		<duel.version>0.8.1</duel.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.9.1</jersey.version>
 		<ehcache.version>2.0.4</ehcache.version>

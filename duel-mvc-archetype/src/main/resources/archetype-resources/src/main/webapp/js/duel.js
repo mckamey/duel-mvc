@@ -1,11 +1,9 @@
 /*global window */
 
 /**
- * @fileoverview duel.js: client-side engine
- * @version DUEL v0.7.0 http://duelengine.org
- * 
- * Copyright (c) 2006-2011 Stephen M. McKamey
- * Licensed under the MIT License (http://duelengine.org/license.txt)
+ * @license DUEL v0.8.1 http://duelengine.org
+ * Copyright (c)2006-2012 Stephen M. McKamey.
+ * Licensed under The MIT License.
  */
 
 /**
@@ -15,10 +13,11 @@
  */
 var duel = (
 	/**
-	 * @param {Window} window Window reference
 	 * @param {Document} document Document reference
+	 * @param {function()} scriptEngine script engine version
+	 * @param {*=} undef undefined
 	 */
-	function(window, document) {
+	function(document, scriptEngine, undef) {
 
 	'use strict';
 
@@ -65,13 +64,6 @@ var duel = (
 	 * @type {number}
 	 */
 	var RAW = 5;
-
-	/**
-	 * @private
-	 * @constant
-	 * @type {string}
-	 */
-	var MSIE = 'ScriptEngineMajorVersion';
 
 	/**
 	 * Wraps a data value to maintain as raw markup in output
@@ -171,32 +163,37 @@ var duel = (
 	}
 
 	/**
+	 * Only IE<9 benefits from Array.join()
+	 * 
 	 * @private
 	 * @constant
 	 * @type {boolean}
 	 */
-	Buffer.FAST = !window[MSIE];
+	Buffer.FAST = !(scriptEngine && scriptEngine() < 9);
 
 	/**
 	 * Appends to the internal value
 	 * 
 	 * @public
 	 * @this {Buffer}
-	 * @param {string} v1
-	 * @param {string} v2
-	 * @param {string} v3
+	 * @param {null|string} v1
+	 * @param {null|string=} v2
+	 * @param {null|string=} v3
 	 */
 	Buffer.prototype.append = function(v1, v2, v3) {
 		if (Buffer.FAST) {
-			this.value += v1;
+			if (v1 !== null) {
+				this.value += v1;
 
-			if (v2 !== null && v2 !== undefined) {
-				this.value += v2;
+				if (v2 !== null && v2 !== undef) {
+					this.value += v2;
 
-				if (v3 !== null && v3 !== undefined) {
-					this.value += v3;
+					if (v3 !== null && v3 !== undef) {
+						this.value += v3;
+					}
 				}
 			}
+
 		} else {
 			this.value.push.apply(
 				// Closure Compiler type cast
@@ -776,20 +773,6 @@ var duel = (
 	/* factory.js --------------------*/
 
 	/**
-	 * @private
-	 * @const
-	 * @type {string}
-	 */
-	var DUEL_EXTERN = 'duel';
-
-	/**
-	 * @private
-	 * @const
-	 * @type {string}
-	 */
-	var RAW_EXTERN = 'raw';
-
-	/**
 	 * Renders an error as text
 	 * 
 	 * @private
@@ -818,12 +801,20 @@ var duel = (
 		 * 
 		 * @public
 		 * @param {*} data The data item being bound
+		 * @param {number} index The index of the current data item
+		 * @param {number} count The total number of data items
+		 * @param {string|null} key The current property name
 		 * @return {Result}
 		 */
-		var self = function(data) {
+		var self = function(data, index, count, key) {
 			try {
-				// Closure Compiler type cast
-				var result = bind(/** @type {Array} */(view), data, 0, 1, null);
+				var result = bind(
+					// Closure Compiler type cast
+					/** @type {Array} */(view),
+					data,
+					isFinite(index) ? index : 0,
+					isFinite(count) ? count : 1,
+					isString(key) ? key : null);
 				return new Result(result);
 			} catch (ex) {
 				// handle error with context
@@ -850,7 +841,7 @@ var duel = (
 	 * @param {Array|Object|string|number|function(*,number,number):Array|Object|string} view The view template
 	 * @return {Array|Object|string|number}
 	 */
-	var duel = window[DUEL_EXTERN] = function(view) {
+	var duel = function(view) {
 		return (isFunction(view) && isFunction(view.getView)) ? view : factory(view);
 	};
 
@@ -859,7 +850,7 @@ var duel = (
 	 * @param {string} value Markup text
 	 * @return {Markup}
 	 */
-	duel[RAW_EXTERN] = duel.raw = function(value) {
+	duel.raw = function(value) {
 		return new Markup(value);
 	};
 
@@ -892,11 +883,22 @@ var duel = (
 	};
 
 	/**
+	 * Boolean attribute map
+	 * 
 	 * @private
-	 * @const
-	 * @type {string}
+	 * @constant
+	 * @type {Object.<number>}
 	 */
-	var WRITE_EXTERN = 'write';
+	var ATTR_BOOL = {
+		'async': 1,
+		'checked': 1,
+		'defer': 1,
+		'disabled': 1,
+		'hidden': 1,
+		'novalidate': 1,
+		'formnovalidate': 1
+		// can add more attributes here as needed
+	};
 
 	/**
 	 * Encodes invalid literal characters in strings
@@ -999,10 +1001,20 @@ var duel = (
 				// emit attributes
 				for (var name in child) {
 					if (child.hasOwnProperty(name)) {
-						buffer.append(' ', name);
 						var val = child[name];
+						if (ATTR_BOOL[name]) {
+							if (val) {
+								val = name;
+							} else {
+								// falsey boolean attributes must not be present
+								continue;
+							}
+						}
+
+						buffer.append(' ', name);
 						if (getType(val) !== NUL) {
-							buffer.append('="', attrEncode(val), '"');
+							// Closure Compiler type cast
+							buffer.append('="', /** @type{string} */(attrEncode(val)), '"');
 						}
 					}
 				}
@@ -1021,7 +1033,8 @@ var duel = (
 				renderElem(buffer, child);
 			} else {
 				// encode string literals
-				buffer.append(htmlEncode(child));
+				// Closure Compiler type cast
+				buffer.append(/** @type{string} */(htmlEncode(child)));
 			}
 		}
 
@@ -1062,52 +1075,19 @@ var duel = (
 	};
 
 	/**
+	 * Immediately writes the resulting value to the document
+	 * 
 	 * @public
-	 * @param {Array|Object|string|number|function(*,*,*,*):(Object|null)} view The view to replace
-	 * @param {*} data The data item being bound
-	 * @param {number} index The index of the current data item
-	 * @param {number} count The total number of data items
-	 * @param {string|null} key The current property name
+	 * @this {Result}
+	 * @param {Document} doc optional Document reference
 	 */
-	duel[WRITE_EXTERN] = duel.write = function(view, data, index, count, key) {
-		// bind node
-		view = duel(view).getView();
-		// Closure Compiler type cast
-		view = bind(/** @type {Array} */(view), data, index, count, key);
+	Result.prototype.write = function(doc) {
 		/*jslint evil:true*/
-		document.write(render(view));
+		(doc||document).write(''+this);
 		/*jslint evil:false*/
 	};
 
 	/* dom.js --------------------*/
-
-	/**
-	 * @private
-	 * @constant
-	 * @type {string}
-	 */
-	var TODOM = 'toDOM';
-
-	/**
-	 * @private
-	 * @constant
-	 * @type {string}
-	 */
-	var RELOAD = 'reload';
-
-	/**
-	 * @private
-	 * @const
-	 * @type {string}
-	 */
-	var ATTR_EXTERN = 'attr';
-
-	/**
-	 * @private
-	 * @const
-	 * @type {string}
-	 */
-	var REPLACE_EXTERN = 'replace';
 
 	/**
 	 * @private
@@ -1130,18 +1110,18 @@ var duel = (
 	 * @constant
 	 * @type {Object.<string>}
 	 */
-	var ATTRMAP = {
-		'rowspan' : 'rowSpan',
-		'colspan' : 'colSpan',
-		'cellpadding' : 'cellPadding',
-		'cellspacing' : 'cellSpacing',
-		'tabindex' : 'tabIndex',
-		'accesskey' : 'accessKey',
-		'hidefocus' : 'hideFocus',
-		'usemap' : 'useMap',
-		'maxlength' : 'maxLength',
-		'readonly' : 'readOnly',
-		'contenteditable' : 'contentEditable'
+	var ATTR_MAP = {
+		'rowspan': 'rowSpan',
+		'colspan': 'colSpan',
+		'cellpadding': 'cellPadding',
+		'cellspacing': 'cellSpacing',
+		'tabindex': 'tabIndex',
+		'accesskey': 'accessKey',
+		'hidefocus': 'hideFocus',
+		'usemap': 'useMap',
+		'maxlength': 'maxLength',
+		'readonly': 'readOnly',
+		'contenteditable': 'contentEditable'
 		// can add more attributes here as needed
 	};
 
@@ -1152,9 +1132,10 @@ var duel = (
 	 * @constant
 	 * @type {Object.<string>}
 	 */
-	var ATTRDUP = {
-		'enctype' : 'encoding',
-		'onscroll' : 'DOMMouseScroll'
+	var ATTR_DUP = {
+		'enctype': 'encoding',
+		'onscroll': 'DOMMouseScroll',
+		'checked': 'defaultChecked'
 		// can add more attributes here as needed
 	};
 
@@ -1266,7 +1247,7 @@ var duel = (
 	}
 
 	/**
-	 * Appends a child to an element
+	 * Adds an event handler to an element
 	 * 
 	 * @private
 	 * @param {Node} elem The element
@@ -1274,21 +1255,23 @@ var duel = (
 	 * @param {function(Event)} handler The event handler
 	 */
 	function addHandler(elem, name, handler) {
-		if (isFunction(handler)) {
-			if (elem.addEventListener) {
-				// DOM Level 2
-				elem.addEventListener((name.substr(0,2) === 'on') ? name.substr(2) : name, handler, false);
-			} else {
-				// DOM Level 0
-				elem[name] = handler;
-			}
-		}
+		switch (typeof handler) {
+			case 'function':
+				if (elem.addEventListener) {
+					// DOM Level 2
+					elem.addEventListener((name.substr(0,2) === 'on') ? name.substr(2) : name, handler, false);
+				} else {
+					// DOM Level 0
+					elem[name] = handler;
+				}
+				break;
 
-		else if (isString(handler)) {
-			// inline functions are DOM Level 0
-			/*jslint evil:true */
-			elem[name] = new Function('event', handler);
-			/*jslint evil:false */
+			case 'string':
+				// inline functions are DOM Level 0
+				/*jslint evil:true */
+				elem[name] = new Function('event', handler);
+				/*jslint evil:false */
+				break;
 		}
 	}
 
@@ -1325,8 +1308,16 @@ var duel = (
 						type = VAL;
 					}
 
-					name = ATTRMAP[name.toLowerCase()] || name;
-					if (name === 'style') {
+					name = ATTR_MAP[name.toLowerCase()] || name;
+					if (ATTR_BOOL[name]) {
+						elem[name] = !!value;
+
+						// also set duplicated attributes
+						if (ATTR_DUP[name]) {
+							elem[ATTR_DUP[name]] = !!value;
+						}
+
+					} else if (name === 'style') {
 						if (typeof elem.style.cssText !== 'undefined') {
 							elem.style.cssText = value;
 						} else {
@@ -1340,25 +1331,25 @@ var duel = (
 						addHandler(elem, name, value);
 
 						// also set duplicated events
-						if (ATTRDUP[name]) {
-							addHandler(elem, ATTRDUP[name], value);
+						if (ATTR_DUP[name]) {
+							addHandler(elem, ATTR_DUP[name], value);
 						}
 
 					} else if (type === VAL && name.charAt(0) !== '$') {
 						elem.setAttribute(name, value);
 	
 						// also set duplicated attributes
-						if (ATTRDUP[name]) {
-							elem.setAttribute(ATTRDUP[name], value);
+						if (ATTR_DUP[name]) {
+							elem.setAttribute(ATTR_DUP[name], value);
 						}
 
 					} else {
 						// allow direct setting of complex properties
 						elem[name] = value;
-	
+
 						// also set duplicated attributes
-						if (ATTRDUP[name]) {
-							elem[ATTRDUP[name]] = value;
+						if (ATTR_DUP[name]) {
+							elem[ATTR_DUP[name]] = value;
 						}
 					}
 				}
@@ -1455,7 +1446,7 @@ var duel = (
 				delete elem[key];
 			} catch (ex) {
 				// sometimes IE doesn't like deleting from DOM
-				elem[key] = undefined;
+				elem[key] = undef;
 			}
 
 			if (!isFunction(method)) {
@@ -1584,15 +1575,39 @@ var duel = (
 	 * 
 	 * @public
 	 * @this {Result}
-	 * @return {Node}
+	 * @param {Node|string=} elem An optional element or element ID to be replaced or merged
+	 * @param {boolean=} merge Optionally merge result into elem
+	 * @return {Node|null}
 	 */
-	Result.prototype[TODOM] = Result.prototype.toDOM = function() {
+	Result.prototype.toDOM = function(elem, merge) {
+		// resolve the element ID
+		if (getType(elem) === VAL) {
+			elem = document.getElementById(
+				// Closure Compiler type cast
+				/** @type{string} */(elem));
+		}
+
+		var view;
 		try {
-			return patchDOM(createElement(this.value[0]), this.value);
+			if (merge) {
+				view = elem;
+				elem = null;
+			}
+			// Closure Compiler type cast
+			view = patchDOM(/** @type{Node} */(view) || createElement(this.value[0]), this.value);
+
 		} catch (ex) {
 			// handle error with context
-			return onErrorDOM(ex);
+			view = onErrorDOM(ex);
 		}
+
+		if (elem && elem.parentNode) {
+			// replace existing element with result
+			// Closure Compiler type cast
+			elem.parentNode.replaceChild(view, /** @type{Node} */(elem));
+		}
+
+		return view;
 	};
 
 	/**
@@ -1601,7 +1616,7 @@ var duel = (
 	 * @public
 	 * @this {Result}
 	 */
-	Result.prototype[RELOAD] = Result.prototype.reload = function() {
+	Result.prototype.reload = function() {
 		// http://stackoverflow.com/questions/4297877
 		var doc = document;
 		try {
@@ -1624,6 +1639,7 @@ var duel = (
 					link = link.nextSibling;
 				}
 			}
+
 		} catch (ex) {
 			/*jslint evil:true*/
 			doc = doc.open('text/html');
@@ -1633,64 +1649,6 @@ var duel = (
 		}
 	};
 
-	/**
-	 * @public
-	 * @param {Node} elem The element to affect 
-	 * @param {Object} node The attributes object to apply
-	 * @param {*} data The data item being bound
-	 * @param {number} index The index of the current data item
-	 * @param {number} count The total number of data items
-	 * @param {string|null} key The current property name
-	 */
-	duel[ATTR_EXTERN] = duel.attr = function(elem, attr, data, index, count, key) {
-		// resolve the element ID
-		if (getType(elem) === VAL) {
-			elem = document.getElementById(elem);
-		}
-
-		if (elem) {
-			// bind attribute nodes
-			attr = bind(attr, data, index, count, key);
-
-			// apply them to the existing element
-			// Closure Compiler type cast
-			addAttributes(elem, /** @type {Array} */(attr));
-		}
-	};
-
-	/**
-	 * @public
-	 * @param {Node} elem The element to be replaced
-	 * @param {Array|Object|string|number|function(*,*,*,*):(Object|null)} view The view to replace
-	 * @param {*} data The data item being bound
-	 * @param {number} index The index of the current data item
-	 * @param {number} count The total number of data items
-	 * @param {string|null} key The current property name
-	 */
-	duel[REPLACE_EXTERN] = duel.replace = function(elem, view, data, index, count, key) {
-		// resolve the element ID
-		if (getType(elem) === VAL) {
-			elem = document.getElementById(elem);
-		}
-
-		if (elem && elem.parentNode) {
-			// bind node
-			view = duel(view).getView();
-			// Closure Compiler type cast
-			view = bind(/** @type {Array} */(view), data, index, count, key);
-
-			try {
-				view = patchDOM(createElement(view[0]), view);
-			} catch (ex) {
-				// handle error with context
-				view = onErrorDOM(ex);
-			}
-
-			// replace existing element with result
-			elem.parentNode.replaceChild(view, elem);
-		}
-	};
-
 	return duel;
 
-})(window, document);
+})(document, window.ScriptEngineMajorVersion);
