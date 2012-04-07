@@ -6,7 +6,7 @@ Environment
 
 ###Minimum:
 
-- Java SE JDK 1.6u26
+- Java SE JDK 1.6
 	http://www.oracle.com/technetwork/java/javase/downloads/
 - Maven 3.0.3
 	http://maven.apache.org/download.html
@@ -30,7 +30,7 @@ Usage
 	BOOTSTRAP="bootstrap"
 	
 	# NOTE: make sure these are the latest versions
-	ARCHETYPE_VER="0.8.1"
+	ARCHETYPE_VER="0.8.2"
 	BOOTSTRAP_VER="0.2.2"
 	
 	# generate a root project folder
