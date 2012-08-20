@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServlet;
 
-import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.duelengine.duel.CDNLinkInterceptor;
 import org.duelengine.duel.LinkInterceptor;
 import org.duelengine.duel.mvc.DuelMvcContext;
@@ -13,6 +12,9 @@ import org.duelengine.duel.mvc.DuelMvcModule;
 
 import com.example.mvcapp.aspects.ErrorHandler;
 import com.example.mvcapp.controllers.BaseController;
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
@@ -94,8 +96,11 @@ public class AppRoot extends GuiceServletContextListener {
 				// setup Guice-style configuration values
 				bindConstants();
 
-				// bind JAXB/JSON serialization
-				bind(JacksonJaxbJsonProvider.class).in(Singleton.class);
+				// bind JSON serialization
+				bind(JacksonJsonProvider.class).in(Singleton.class);
+
+				// bind XML serialization
+				bind(JacksonXMLProvider.class).in(Singleton.class);
 
 				// context for each request
 				bind(DuelMvcContext.class).to(AppContext.class);

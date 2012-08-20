@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-# NOTE: you'll want to change these values for your project
+# NOTE: you'll want to change these values per your project
 GROUP_ID="com.example"
 ROOT_DIR="myapp"
 MVC_APP="foo"
@@ -8,8 +8,8 @@ VERSION="1.0-SNAPSHOT"
 BOOTSTRAP="bootstrap"
 
 # NOTE: make sure these are the latest versions
-ARCHETYPE_VER="0.8.1"
-BOOTSTRAP_VER="0.2.2"
+ARCHETYPE_VER="0.9.0"
+BOOTSTRAP_VER="0.4.0"
 
 # generate a root project folder
 mvn archetype:generate \
@@ -49,4 +49,4 @@ mvn archetype:generate \
 mvn package
 
 # run the resulting WAR on the test bootstrap
-java -jar $BOOTSTRAP/target/$BOOTSTRAP.jar -war $MVC_APP/target/$MVC_APP.war
+java -jar $BOOTSTRAP/target/$BOOTSTRAP.jar -war /=$MVC_APP/target/$MVC_APP.war

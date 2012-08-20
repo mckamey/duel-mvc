@@ -9,3 +9,4 @@ duel-mvc/target
 duel-mvc-archetype/target
 mvcapp/target
 bootstrap
+duel-mvc/src/main/java/org/duelengine/duel/mvc/CrossOriginResourceSharingFilter.java

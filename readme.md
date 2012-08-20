@@ -6,23 +6,23 @@ Environment
 
 ###Minimum:
 
-- Java SE JDK 1.6
+- Java SE JDK 1.6 (1.7 should work but still needs more testing)
 	http://www.oracle.com/technetwork/java/javase/downloads/
-- Maven 3.0.3
+- Maven 3.0.x
 	http://maven.apache.org/download.html
 
 ###Recommended:
 
-- Eclipse IDE 2.7
+- Eclipse IDE 3.7.x (4.2 should work but still needs more testing)
 	http://www.eclipse.org/downloads/
-- m2e 1.0.0
+- m2e 1.0.x
 	http://www.eclipse.org/m2e/download/
-- JRebel 4.5.2
-	http://www.zeroturnaround.com/jrebel/current/
+- JRebel 5.0.x
+	http://zeroturnaround.com/software/jrebel/download/
 
 Usage
 -----
-	# NOTE: you'll want to change these values for your project
+	# NOTE: you'll want to change these values per your project
 	GROUP_ID="com.example"
 	ROOT_DIR="myapp"
 	MVC_APP="foo"
@@ -30,8 +30,8 @@ Usage
 	BOOTSTRAP="bootstrap"
 	
 	# NOTE: make sure these are the latest versions
-	ARCHETYPE_VER="0.8.2"
-	BOOTSTRAP_VER="0.2.2"
+	ARCHETYPE_VER="0.9.0"
+	BOOTSTRAP_VER="0.4.0"
 	
 	# generate a root project folder
 	mvn archetype:generate \
@@ -71,7 +71,7 @@ Usage
 	mvn package
 	
 	# run the resulting WAR on the test bootstrap
-	java -jar $BOOTSTRAP/target/$BOOTSTRAP.jar -war $MVC_APP/target/$MVC_APP.war
+	java -jar $BOOTSTRAP/target/$BOOTSTRAP.jar -war /=$MVC_APP/target/$MVC_APP.war
 
 JRebel Setup
 ------------
@@ -102,7 +102,7 @@ Development
 		java $JREBEL_OPTS \
 			-Drebel.jersey_plugin=true \
 			-jar bootstrap/target/bootstrap.jar \
-			-war mvcapp/target/mvcapp/
+			-war /=mvcapp/target/mvcapp/
 
 2. View at `http://127.0.0.1:8080/`
 3. Edit with Eclipse... refresh browser
