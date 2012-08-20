@@ -10,16 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+
+import net.sf.ehcache.constructs.web.filter.GzipFilter;
 
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.matcher.AbstractMatcher;
 import com.google.inject.matcher.Matchers;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import net.sf.ehcache.constructs.web.filter.GzipFilter;
 
 public abstract class DuelMvcModule extends JerseyServletModule {
 
@@ -109,7 +111,8 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 				.or(Matchers.annotatedWith(POST.class))
 				.or(Matchers.annotatedWith(PUT.class))
 				.or(Matchers.annotatedWith(DELETE.class))
-				.or(Matchers.annotatedWith(HEAD.class)),
+				.or(Matchers.annotatedWith(HEAD.class))
+				.or(Matchers.annotatedWith(OPTIONS.class)),
 			actionInterceptor
 		);
 
@@ -167,26 +170,56 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 	@Override
 	protected final void configureServlets() {
 
-		// bind any app-specific IoC
-		configureApp();
+		try {
+			// bind any app-specific IoC
+			configureApp();
 
-		// bind view results via factory
-		bindViewResults();
+		} catch (Throwable ex) {
+			addError(ex);
+		}
 
-		// bind controllers by convention
-		bindControllers();
+		try {
+			// bind view results via factory
+			bindViewResults();
 
-		// setup action / result filters
-		bindFilterChains();
+		} catch (Throwable ex) {
+			addError(ex);
+		}
+
+		try {
+			// bind controllers by convention
+			bindControllers();
+
+		} catch (Throwable ex) {
+			addError(ex);
+		}
+
+		try {
+			// setup action / result filters
+			bindFilterChains();
+
+		} catch (Throwable ex) {
+			addError(ex);
+		}
 
 		// ----------------------------------------------
 		// the rest effectively replaces /WEB-INF/web.xml
 
-		// map static routes
-		bindStaticRoutes();
+		try {
+			// map static routes
+			bindStaticRoutes();
 
-        // map all other routes to Guice
-		// http://jersey.java.net/nonav/apidocs/latest/contribs/jersey-guice/com/sun/jersey/guice/spi/container/servlet/package-summary.html
-		serve("/*").with(GuiceContainer.class);
+		} catch (Throwable ex) {
+			addError(ex);
+		}
+
+		try {
+			// map all other routes to Guice
+			// http://jersey.java.net/nonav/apidocs/latest/contribs/jersey-guice/com/sun/jersey/guice/spi/container/servlet/package-summary.html
+			serve("/*").with(GuiceContainer.class);
+
+		} catch (Throwable ex) {
+			addError(ex);
+		}
 	}
 }
