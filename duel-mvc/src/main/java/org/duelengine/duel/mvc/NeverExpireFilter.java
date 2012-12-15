@@ -22,10 +22,11 @@ import javax.servlet.http.*;
  * http://www.w3.org/TR/cors/#access-control-allow-origin-response-hea
  * https://developer.mozilla.org/En/HTTP_access_control#Access-Control-Allow-Origin
  */
-class NeverExpireFilter implements Filter {
+public class NeverExpireFilter implements Filter {
 
 	// this just needs to be far out, do not need to worry about leap year
-	private static final long ONE_YEAR = 365L * 24L * 60L * 60L * 1000L;
+	private static final long ONE_YEAR_SEC = 365L * 24L * 60L * 60L;
+	private static final long ONE_YEAR_MS = ONE_YEAR_SEC * 1000L;
 
 	public void init(FilterConfig config) {}
 
@@ -37,10 +38,14 @@ class NeverExpireFilter implements Filter {
 			HttpServletResponse httpResponse = (HttpServletResponse)response;
 
 			// expire one year from now
-			long expiryDate = new Date().getTime() + ONE_YEAR;
+			long expiryDate = new Date().getTime() + ONE_YEAR_MS;
 
 			// add cache control response headers
 			httpResponse.setDateHeader("Expires", expiryDate);
+			httpResponse.setHeader("Cache-Control", "public, max-age="+ONE_YEAR_SEC);
+
+			// add header to encourage CDN to vary cache on compression
+			httpResponse.setHeader("Vary", "Accept-Encoding");
 
 			// add header to enable CDN cross-origin access
 			// not conditionally sent since CDN will cache
