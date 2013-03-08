@@ -13,11 +13,11 @@ Environment
 
 ###Recommended:
 
-- Eclipse IDE 3.7.x (4.2 should work but still needs more testing)
+- Eclipse IDE 3.7+
 	http://www.eclipse.org/downloads/
-- m2e 1.0.x
+- m2e 1.0+
 	http://www.eclipse.org/m2e/download/
-- JRebel 5.0.x
+- JRebel 5.0+
 	http://zeroturnaround.com/software/jrebel/download/
 
 Usage
@@ -30,7 +30,7 @@ Usage
 	BOOTSTRAP="bootstrap"
 	
 	# NOTE: make sure these are the latest versions
-	ARCHETYPE_VER="0.9.0"
+	ARCHETYPE_VER="0.9.2"
 	BOOTSTRAP_VER="0.4.0"
 	
 	# generate a root project folder
