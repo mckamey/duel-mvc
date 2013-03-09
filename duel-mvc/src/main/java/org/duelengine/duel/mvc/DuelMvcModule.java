@@ -152,8 +152,11 @@ public abstract class DuelMvcModule extends JerseyServletModule {
 				Set<Class<?>> types = ClassEnumerator.getClasses(pkg.getName());
 
 				for (Class<?> type : types) {
-					if (type.isInterface() || Modifier.isAbstract(type.getModifiers())) {
-						// filter abstract or interfaces
+					if (type.isInterface() ||
+						Modifier.isAbstract(type.getModifiers()) ||
+						type.isSynthetic() ||
+						type.isAnonymousClass()) {
+						// filter abstract, anonymous, synthetic and interfaces
 						continue;
 					}
 
