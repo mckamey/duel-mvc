@@ -8,8 +8,8 @@ VERSION="1.0-SNAPSHOT"
 BOOTSTRAP="bootstrap"
 
 # NOTE: make sure these are the latest versions
-ARCHETYPE_VER="0.9.0"
-BOOTSTRAP_VER="0.4.0"
+ARCHETYPE_VER="0.9.3"
+BOOTSTRAP_VER="0.5.0"
 
 # generate a root project folder
 mvn archetype:generate \

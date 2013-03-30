@@ -17,14 +17,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<resourcesDir>${project.basedir}/src/main/resources</resourcesDir>
 
-		<mvc.version>0.9.2</mvc.version>
-		<duel.version>0.8.6</duel.version>
-		<merge.version>0.5.7</merge.version>
-		<jackson.version>2.1.4</jackson.version>
-		<jacksonXML.version>2.1.4</jacksonXML.version>
+		<mvc.version>0.9.3</mvc.version>
+		<duel.version>0.8.7</duel.version>
+		<merge.version>0.5.8</merge.version>
+		<jackson.version>2.2.1</jackson.version>
+		<jacksonXML.version>2.2.1</jacksonXML.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.9.1</jersey.version>
-		<slf4j.version>1.7.2</slf4j.version>
+		<slf4j.version>1.7.5</slf4j.version>
 		<servlet.version>3.0.1</servlet.version>
 		<junit.version>4.11</junit.version>
 		<m2e.version>1.0.0</m2e.version>
