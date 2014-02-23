@@ -17,9 +17,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<resourcesDir>${project.basedir}/src/main/resources</resourcesDir>
 
-		<mvc.version>0.9.4</mvc.version>
+		<mvc.version>0.9.5</mvc.version>
 		<duel.version>0.9.1</duel.version>
-		<merge.version>0.5.9</merge.version>
+		<merge.version>0.6.0</merge.version>
 		<jackson.version>2.3.1</jackson.version>
 		<guice.version>3.0</guice.version>
 		<jersey.version>1.9.1</jersey.version>
