@@ -13,7 +13,7 @@
 
 	<groupId>org.duelengine</groupId>
 	<artifactId>duel-mvc-archetype</artifactId>
-	<version>0.9.3</version>
+	<version>0.9.4</version>
 	<packaging>maven-archetype</packaging>
 
 	<name>DUEL MVC Archetype</name>
@@ -56,6 +56,30 @@
 				<plugin>
 					<artifactId>maven-archetype-plugin</artifactId>
 					<version>2.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-enforcer-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

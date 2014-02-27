@@ -100,17 +100,24 @@ final class ClassEnumerator {
 	public static Set<Class<?>> getFromJAR(String packageName, String jar)
 			throws FileNotFoundException, IOException, ClassNotFoundException {
 
-		JarInputStream jarFile = new JarInputStream(new FileInputStream(jar));
 		Set<Class<?>> classes = new HashSet<Class<?>>();
+		JarInputStream jarFile = new JarInputStream(new FileInputStream(jar));
+		try {
 
-		JarEntry jarEntry;
-		while ((jarEntry = jarFile.getNextJarEntry()) != null) {
-			String className = jarEntry.getName();
-			if (className.endsWith(CLASS_FILE)) {
-				className = className.substring(0, className.lastIndexOf('.'));
-				if (className.startsWith(packageName)) {
-					classes.add(Class.forName(className.replace('/', '.')));
+			JarEntry jarEntry;
+			while ((jarEntry = jarFile.getNextJarEntry()) != null) {
+				String className = jarEntry.getName();
+				if (className.endsWith(CLASS_FILE)) {
+					className = className.substring(0, className.lastIndexOf('.'));
+					if (className.startsWith(packageName)) {
+						classes.add(Class.forName(className.replace('/', '.')));
+					}
 				}
+			}
+			
+		} finally {
+			if (jarFile != null) {
+				jarFile.close();
 			}
 		}
 

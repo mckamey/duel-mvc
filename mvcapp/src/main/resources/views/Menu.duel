@@ -9,5 +9,5 @@
 		<li><strong>HTML:</strong> <a href="/throw">Throw an exception</a></li>
 		<li><strong>JSON:</strong> <a href="/throw.json">Throw an exception</a></li>
 		<li><strong>XML:</strong> <a href="/throw.xml">Throw an exception</a></li>
-	<ul>
+	</ul>
 </nav>

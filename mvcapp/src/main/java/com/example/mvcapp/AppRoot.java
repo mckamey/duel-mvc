@@ -12,7 +12,6 @@ import org.duelengine.duel.mvc.DuelMvcModule;
 
 import com.example.mvcapp.aspects.ErrorHandler;
 import com.example.mvcapp.controllers.BaseController;
-
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 import com.google.inject.Guice;
@@ -129,7 +128,6 @@ public class AppRoot extends GuiceServletContextListener {
 			 */
 			@Provides
 			@Singleton
-			@SuppressWarnings("unused")
 			protected LinkInterceptor linkInterceptorSingleton(
 					Stage stage,
 					@Named(Globals.CDN_HOST) String cdnHost,
