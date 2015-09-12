@@ -28,7 +28,8 @@
 		<junit.version>4.11</junit.version>
 		<m2e.version>1.0.0</m2e.version>
 		<jrebel.version>1.1.5</jrebel.version>
-		<javac.version>1.6</javac.version>
+		<jaxb.version>2.3.0</jaxb.version>
+		<javac.version>1.8</javac.version>
 
 		<duel.clientPrefix>App</duel.clientPrefix>
 		<duel.serverPrefix>com.example.mvcapp.views</duel.serverPrefix>
@@ -41,6 +42,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- Javax XML Annotations -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb.version}</version>
+		</dependency>
+
 		<!-- JUnit runtime -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -128,7 +136,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
+				<version>3.3.2</version>
 				<configuration>
 					<attachClasses>true</attachClasses>
 					<classesClassifier>classes</classesClassifier>
@@ -175,7 +183,7 @@
 			</plugin>
 
 			<!-- JRebel Config -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.zeroturnaround</groupId>
 				<artifactId>jrebel-maven-plugin</artifactId>
 				<version>${jrebel.version}</version>
@@ -202,7 +210,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -249,7 +257,7 @@
 										<execute />
 									</action>
 								</pluginExecution>
-								<pluginExecution>
+								<!-- <pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>org.zeroturnaround</groupId>
 										<artifactId>jrebel-maven-plugin</artifactId>
@@ -261,7 +269,7 @@
 									<action>
 										<execute />
 									</action>
-								</pluginExecution>
+								</pluginExecution> -->
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
